@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth, files
+from routers import auth, files, chat
 from motor.motor_asyncio import AsyncIOMotorClient
 from utils import Settings
 
@@ -17,6 +17,7 @@ app.add_middleware(
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(files.router, prefix="/files", tags=["files"])
+app.include_router(chat.router, prefix="/chat", tags=["chat"])
 
 @app.on_event("startup")
 async def startup_db_client():

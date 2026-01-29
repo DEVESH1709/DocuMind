@@ -12,12 +12,30 @@ function App() {
            <Auth onLoginSuccess={setToken} />
         </div>
       ) : (
-        <div className="text-center mt-20">
-          <h2 className="text-2xl">Welcome! Dashboard coming soon...</h2>
-          <button onClick={() => setToken(null)} className="mt-4 text-slate-400">Logout</button>
-        </div>
-      )}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+            <div className="lg:col-span-8 space-y-6">
+              <section>
+                <FileUploader token={token} onUploadSuccess={handleUploadSuccess} />
+              </section>
+
+              {currentFile && (
+                <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                  {['audio', 'video', 'mp3', 'wav', 'mp4'].some(ext => currentFile.type?.includes(ext)) && currentFile.url && (
+                    <div className="bg-slate-800/50 p-1 rounded-2xl border border-white/5 shadow-2xl">
+                      <MediaPlayer url={currentFile.url} seekCommand={seekCommand} />
+                    </div>
+                  )}
+
+                  <div className="mt-6">
+                    <SummaryDisplay summary={currentFile.summary} />
+                  </div>
+                </section>
+              )}
+            
+            </div>
     </div>
+      )}
+   </div>
   )
 }
 

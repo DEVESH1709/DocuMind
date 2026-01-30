@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./my-project
+        working-directory: ./client
 
     steps:
     - uses: actions/checkout@v3
@@ -57,7 +57,7 @@ jobs:
       with:
         node-version: 18
         cache: 'npm'
-        cache-dependency-path: './my-project/package-lock.json'
+        cache-dependency-path: './client/package-lock.json'
 
     - name: Install Node Dependencies
       run: npm ci

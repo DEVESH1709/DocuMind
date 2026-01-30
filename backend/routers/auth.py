@@ -4,7 +4,7 @@ from pymongo.errors import DuplicateKeyError
 from datetime import datetime, timedelta
 from utils import (
     Settings, get_password_hash, verify_password,
-     create_access_token
+    oauth2_scheme, create_access_token
 )
 
 from pydantic import BaseModel, EmailStr
@@ -46,4 +46,12 @@ async def login_for_access_token(request: Request, form_data: OAuth2PasswordRequ
     if not user or not verify_password(form_data.password, user["password"]):
         raise HTTPException(status_code=401, detail="Incorrect username or password")
     access_token = create_access_token(data={"sub": user["email"]})
+    return {"access_token": access_token, "token_type": "bearer"}
+
+@router.post("/guest", response_model=Token)
+async def login_guest():
+    """
+    Get a guest token for demo purposes (no DB required).
+    """
+    access_token = create_access_token(data={"sub": "guest@knowflow.ai"})
     return {"access_token": access_token, "token_type": "bearer"}

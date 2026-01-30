@@ -31,6 +31,7 @@ It features a **Zero-Cost** architecture, leveraging local AI models (Whisper, e
 ### Backend
 -   **Framework**: FastAPI (Python 3.12)
 -   **Database**: MongoDB (Async Motor driver)
+-   **Caching/Rate Limiting**: Redis
 -   **AI/ML**: 
     -   `openai-whisper` (ASR/Transcription)
     -   `pypdf` (Document Parsing)
@@ -53,7 +54,8 @@ It features a **Zero-Cost** architecture, leveraging local AI models (Whisper, e
 ### Prerequisites
 -   Python 3.10+
 -   Node.js 18+
--   MongoDB (running locally on port 27017)
+-   MongoDB (running locally on port 27017 or Docker)
+-   Redis (running locally on port 6379 or Docker - **Required for Rate Limiting**)
 -   FFmpeg (required for Whisper)
 
 ### 0. Clone the Repository
@@ -62,7 +64,24 @@ git clone https://github.com/your-username/Documind.git
 cd Documind
 ```
 
-### 1. Backend Setup
+### 1. Environment Setup (.env)
+Create a `.env` file in the `backend` directory:
+```env
+MONGO_URI="mongodb://localhost:27017"
+MONGO_DB="Document"
+JWT_SECRET="your_secret_key"
+ACCESS_TOKEN_EXPIRE_MINUTES=1440
+GROQ_API_KEY="your_groq_api_key"
+REDIS_URL="redis://localhost:6379"
+```
+
+### 2. Start Services (Redis & MongoDB)
+Use Docker to start the vital services:
+```bash
+docker-compose up -d redis mongodb
+```
+
+### 3. Backend Setup
 ```bash
 cd backend
 
@@ -83,9 +102,9 @@ Once the backend is running, you can access the interactive API docs at:
 -   **Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
 -   **ReDoc**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
-### 2. Frontend Setup
+### 4. Frontend Setup
 ```bash
-cd my-project
+cd client
 
 # Install dependencies
 npm install

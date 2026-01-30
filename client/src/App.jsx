@@ -4,7 +4,7 @@ import Chatbot from './components/Chatbot';
 import FileUploader from './components/FileUploader';
 import MediaPlayer from './components/MediaPlayer';
 import SummaryDisplay from './components/SummaryDisplay';
-import Auth from './components/Auth'; 
+import Auth from './components/Auth';
 
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
           </div>
           <div className="flex items-center gap-4">
             {token && (
-              <button onClick={() => setToken(null)} className="text-sm text-slate-400 hover:text-white transition-colors">
+              <button onClick={() => setToken(null)} className="text-sm text-slate-400 hover:text-white transition-colors cursor-pointer">
                 Logout
               </button>
             )}
@@ -97,7 +97,7 @@ function App() {
             </div>
             <div className="lg:col-span-4">
               <div className="sticky top-24">
-                <Chatbot token={token} onTimestampClick={handleTimestampClick} />
+                <Chatbot key={currentFile?.url} token={token} onTimestampClick={handleTimestampClick} />
               </div>
             </div>
           </div>

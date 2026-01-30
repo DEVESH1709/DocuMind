@@ -74,7 +74,7 @@ function Chatbot({ token, onTimestampClick }) {
 
     return (
         <div className="flex flex-col h-[600px] bg-slate-900 rounded-2xl shadow-xl border border-white/10 overflow-hidden ring-1 ring-white/5">
-         
+
             <div className="p-4 bg-slate-800/80 border-b border-white/10 flex items-center gap-3 backdrop-blur-sm">
                 <div className="bg-gradient-to-tr from-blue-500 to-cyan-500 p-2 rounded-lg shadow-lg shadow-blue-500/20">
                     <Bot size={20} className="text-white" />
@@ -103,8 +103,8 @@ function Chatbot({ token, onTimestampClick }) {
                         </div>
 
                         <div className={`max-w-[85%] rounded-2xl px-5 py-3 text-sm leading-relaxed shadow-sm ${msg.type === 'user'
-                                ? 'bg-indigo-600 text-white rounded-tr-sm'
-                                : 'bg-slate-800 text-slate-200 border border-white/5 rounded-tl-sm'
+                            ? 'bg-indigo-600 text-white rounded-tr-sm'
+                            : 'bg-slate-800 text-slate-200 border border-white/5 rounded-tl-sm'
                             }`}>
                             {msg.type === 'user' ? msg.text : renderMessage(msg.text)}
                         </div>
@@ -141,7 +141,7 @@ function Chatbot({ token, onTimestampClick }) {
                     <button
                         onClick={handleAsk}
                         disabled={loading || !question.trim()}
-                        className="p-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg disabled:opacity-50 disabled:bg-slate-700 disabled:text-slate-500 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/20"
+                        className="p-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg disabled:opacity-50 disabled:bg-slate-700 disabled:text-slate-500 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/20 cursor-pointer"
                     >
                         <Send size={18} />
                     </button>

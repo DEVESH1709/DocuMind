@@ -73,8 +73,8 @@ function FileUploader({ token, onUploadSuccess }) {
     return (
         <div
             className={`relative group bg-slate-800/40 backdrop-blur-sm p-8 rounded-2xl border-2 transition-all duration-300 ${dragActive
-                    ? 'border-blue-500 bg-blue-500/10 scale-[1.01]'
-                    : 'border-white/5 hover:border-white/10 hover:bg-slate-800/60'
+                ? 'border-blue-500 bg-blue-500/10 scale-[1.01]'
+                : 'border-white/5 hover:border-white/10 hover:bg-slate-800/60'
                 }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
@@ -122,7 +122,7 @@ function FileUploader({ token, onUploadSuccess }) {
                         <button
                             onClick={() => setFile(null)}
                             disabled={uploading}
-                            className="flex-1 py-2.5 px-4 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg text-sm font-medium transition-colors border border-white/5"
+                            className="flex-1 py-2.5 px-4 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg text-sm font-medium transition-colors border border-white/5 cursor-pointer"
                         >
                             Cancel
                         </button>
@@ -131,7 +131,7 @@ function FileUploader({ token, onUploadSuccess }) {
                     <button
                         onClick={handleUpload}
                         disabled={!file || uploading}
-                        className="flex-1 py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-semibold shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center"
+                        className="flex-1 py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-semibold shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center cursor-pointer"
                     >
                         {uploading ? <Loader2 size={16} className="animate-spin mr-2" /> : null}
                         {uploading ? 'Processing...' : 'Upload Now'}

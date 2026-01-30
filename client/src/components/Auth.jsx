@@ -1,17 +1,17 @@
-import {useState} from "react";
+import { useState } from "react";
 import axios from "axios";
 
-import {Mail, Lock, User, ArrowRight, Loader2} from "lucide-react";
+import { Mail, Lock, User, ArrowRight, Loader2 } from "lucide-react";
 
-function Auth({onLoginSuccess}){
+function Auth({ onLoginSuccess }) {
 
     const [isLogin, setIsLogin] = useState(true);
-    const [loading,setLoading] = useState(false);
-    const [formData,setFormData] = useState({email:"", password:""})
-    const [error,setError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [formData, setFormData] = useState({ email: "", password: "" })
+    const [error, setError] = useState("");
 
-    const handleChange = (e)=>{
-        setFormData({...formData, [e.target.name]:e.target.value});
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
         setError("");
     }
 
@@ -40,7 +40,7 @@ function Auth({onLoginSuccess}){
                 setIsLogin(true);
                 setFormData(prev => ({ ...prev, password: '' }));
                 setError("Registration successful! Please sign in.");
-                return; 
+                return;
             }
         } catch (err) {
             console.error(err);
@@ -98,8 +98,8 @@ function Auth({onLoginSuccess}){
 
                 {error && (
                     <div className={`p-3 border rounded-lg text-xs text-center ${error.includes("successful")
-                            ? "bg-green-500/10 border-green-500/20 text-green-400"
-                            : "bg-red-500/10 border-red-500/20 text-red-400"
+                        ? "bg-green-500/10 border-green-500/20 text-green-400"
+                        : "bg-red-500/10 border-red-500/20 text-red-400"
                         }`}>
                         {error}
                     </div>
@@ -108,7 +108,7 @@ function Auth({onLoginSuccess}){
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-lg font-semibold shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="w-full py-2.5 bg-linear-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-lg font-semibold shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                 >
                     {loading ? <Loader2 size={18} className="animate-spin" /> : (isLogin ? 'Sign In' : 'Create Account')}
                     {!loading && <ArrowRight size={16} />}
@@ -119,7 +119,7 @@ function Auth({onLoginSuccess}){
                 <span className="text-slate-500">{isLogin ? "Don't have an account?" : "Already have an account?"}</span>
                 <button
                     onClick={() => setIsLogin(!isLogin)}
-                    className="ml-2 text-blue-400 hover:text-blue-300 font-medium transition-colors"
+                    className="ml-2 text-blue-400 hover:text-blue-300 font-medium transition-colors cursor-pointer"
                 >
                     {isLogin ? 'Sign Up' : 'Log In'}
                 </button>

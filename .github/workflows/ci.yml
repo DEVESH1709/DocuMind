@@ -13,6 +13,17 @@ jobs:
       run:
         working-directory: ./backend
 
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
     - uses: actions/checkout@v3
 
@@ -38,7 +49,9 @@ jobs:
         MONGO_DB: test_db
         JWT_SECRET: test_secret_ci
         ACCESS_TOKEN_EXPIRE_MINUTES: 30
+        ACCESS_TOKEN_EXPIRE_MINUTES: 30
         GROQ_API_KEY: mock_key_for_ci
+        REDIS_URL: redis://localhost:6379
       run: |
         # Run backend tests with coverage
         pytest --cov=backend --cov-report=term-missing

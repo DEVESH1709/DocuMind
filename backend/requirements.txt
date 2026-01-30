@@ -24,3 +24,5 @@ httpx
 pytest-cov
 mongomock
 mongomock-motor
+redis
+fastapi-limiter

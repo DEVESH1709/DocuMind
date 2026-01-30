@@ -16,7 +16,9 @@ settings = Settings()
 
 from fastapi import Request
 
-@router.post("/")
+from fastapi_limiter.depends import RateLimiter
+
+@router.post("/",dependencies=[Depends(RateLimiter(times=5, seconds=60))])
 async def chat_answer(query:ChatQuery, request:Request):
     db = request.app.database
     latest_file = await db["files"].find_one(sort =[("_id",-1)])

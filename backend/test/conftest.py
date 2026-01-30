@@ -1,13 +1,15 @@
 import pytest
 import asyncio
-from httpx import AsyncClient, ASGITransport
-from main import app
 import sys
 from unittest.mock import MagicMock
 
+# Ensure any import-time usage of `whisper` in app modules is mocked
 mock_whisper = MagicMock()
-mock_whisper.load_model.return_value = MagicMock() # Return a dummy model
+mock_whisper.load_model.return_value = MagicMock()
 sys.modules["whisper"] = mock_whisper
+
+from httpx import AsyncClient, ASGITransport
+from main import app
 from mongomock_motor import AsyncMongoMockClient
 from utils import Settings
 

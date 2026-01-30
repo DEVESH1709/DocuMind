@@ -46,3 +46,19 @@ def override_auth():
     app.dependency_overrides[get_current_user] = lambda: {"sub": "test@example.com"}
     yield
     app.dependency_overrides = {}
+
+import redis.asyncio as redis
+from fastapi_limiter import FastAPILimiter
+
+@pytest.fixture(autouse=True)
+async def init_limiter():
+    redis_url = "redis://localhost:6379"
+    try:
+        r = redis.from_url(redis_url, encoding="utf-8", decode_responses=True)
+        await FastAPILimiter.init(r)
+        yield
+        await FastAPILimiter.close()
+        await r.close()
+    except Exception as e:
+        print(f"Test Redis Init Failed: {e}")
+        yield

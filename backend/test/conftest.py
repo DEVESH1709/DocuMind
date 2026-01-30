@@ -2,6 +2,12 @@ import pytest
 import asyncio
 from httpx import AsyncClient, ASGITransport
 from main import app
+import sys
+from unittest.mock import MagicMock
+
+mock_whisper = MagicMock()
+mock_whisper.load_model.return_value = MagicMock() # Return a dummy model
+sys.modules["whisper"] = mock_whisper
 from mongomock_motor import AsyncMongoMockClient
 from utils import Settings
 

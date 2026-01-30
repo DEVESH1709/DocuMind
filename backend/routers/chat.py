@@ -16,9 +16,9 @@ settings = Settings()
 
 from fastapi import Request
 
-from fastapi_limiter.depends import RateLimiter
+# from fastapi_limiter.depends import RateLimiter
 
-@router.post("/",dependencies=[Depends(RateLimiter(times=5, seconds=60))])
+@router.post("/") #,dependencies=[Depends(RateLimiter(times=5, seconds=60))])
 async def chat_answer(query:ChatQuery, request:Request):
     db = request.app.database
     latest_file = await db["files"].find_one(sort =[("_id",-1)])
@@ -28,8 +28,8 @@ async def chat_answer(query:ChatQuery, request:Request):
 
     if latest_file:
         context = latest_file.get("text","")
-        timestamp_segment = latest_file.get("segments",[])
-        filetype = latest_file.get("type","pdf")
+        timestamp_segments = latest_file.get("segments", [])
+        file_type = latest_file.get("type","pdf")
     else:
         context= global_state.last_uploaded_text
 

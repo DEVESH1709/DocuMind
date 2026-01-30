@@ -12,9 +12,11 @@ class Settings(BaseSettings):
     JWT_SECRET: str
     ACCESS_TOKEN_EXPIRE_MINUTES: int 
     GROQ_API_KEY: str 
+    REDIS_URL: str = "redis://redis:6379" 
 
     class Config:
         env_file = ".env"
+        extra = "ignore"
 
 settings = Settings()
 

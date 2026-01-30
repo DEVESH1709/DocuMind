@@ -17,7 +17,7 @@ async def lifespan(app: FastAPI):
     print(f" Connected to MongoDB at {settings.MONGO_URI}")
 
     try:
-        redis_url = os.getenv("REDIS_URL", "redis://redis:6379") 
+        redis_url = settings.REDIS_URL 
         r = redis.from_url(redis_url, encoding="utf-8", decode_responses=True)
         await FastAPILimiter.init(r)
         print(f"Rate Limiter Initialized (Redis: {redis_url})")

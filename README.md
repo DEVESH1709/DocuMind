@@ -97,10 +97,58 @@ uvicorn main:app --reload
 ```
 *Backend runs on `http://localhost:8000`*
 
-###  API Documentation (Swagger UI)
+### API Documentation (Swagger UI)
 Once the backend is running, you can access the interactive API docs at:
 -   **Swagger UI**: [http://localhost:8000/docs](http://localhost:8000/docs)
 -   **ReDoc**: [http://localhost:8000/redoc](http://localhost:8000/redoc)
+
+### API Documentation Details
+
+#### 1. Register User
+**POST** `/auth/register`
+- **Body**:
+  ```json
+  {
+    "email": "user@example.com",
+    "password": "securepassword"
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "access_token": "eyJhbGciOiJIUz...",
+    "token_type": "bearer"
+  }
+  ```
+
+#### 2. Chat with File
+**POST** `/chat/`
+- **Header**: `Authorization: Bearer <token>`
+- **Body**:
+  ```json
+  {
+    "question": "Summarize the key points."
+  }
+  ```
+- **Response**:
+  ```json
+  {
+    "answer": "Based on the document, the key points are..."
+  }
+  ```
+
+#### 3. Upload File
+**POST** `/files/upload`
+- **Header**: `Authorization: Bearer <token>`
+- **Body**: `multipart/form-data` (Key: `file`)
+- **Response**:
+  ```json
+  {
+    "filename": "report.pdf",
+    "summary": "This document discusses...",
+    "type": "pdf"
+  }
+  ```
 
 ### 4. Frontend Setup
 ```bash

@@ -19,10 +19,11 @@ async def lifespan(app: FastAPI):
     try:
         redis_url = settings.REDIS_URL 
         r = redis.from_url(redis_url, encoding="utf-8", decode_responses=True)
-        await FastAPILimiter.init(r)
-        print(f"Rate Limiter Initialized (Redis: {redis_url})")
+        # We won't ping or init limiter here to avoid startup hangs
+        print(f"Redis Client Created")
     except Exception as e:
-        print(f"Redis Connection Failed: {e}. Rate limiting will not work.")
+        print(f"Redis Setup Failed: {e}")
+        r = None
     
     yield
    
@@ -40,7 +41,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

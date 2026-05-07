@@ -3,7 +3,7 @@ import axios from 'axios';
 import { UploadCloud, CheckCircle, AlertCircle, File as FileIcon, Loader2 } from 'lucide-react';
 
 function FileUploader({ token, onUploadSuccess }) {
-    const [file, setFile] = useState(null);
+    const [files, setFiles] = useState([]);
     const [status, setStatus] = useState({ type: '', msg: '' });
     const [uploading, setUploading] = useState(false);
     const [dragActive, setDragActive] = useState(false);
@@ -22,26 +22,28 @@ function FileUploader({ token, onUploadSuccess }) {
         e.preventDefault();
         e.stopPropagation();
         setDragActive(false);
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            setFile(e.dataTransfer.files[0]);
+        if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            setFiles(Array.from(e.dataTransfer.files));
             setStatus({ type: '', msg: '' });
         }
     };
 
     const handleFileChange = (e) => {
-        if (e.target.files && e.target.files[0]) {
-            setFile(e.target.files[0]);
+        if (e.target.files && e.target.files.length > 0) {
+            setFiles(Array.from(e.target.files));
             setStatus({ type: '', msg: '' });
         }
     };
 
     const handleUpload = async () => {
-        if (!file) return;
+        if (files.length === 0) return;
         setUploading(true);
         setStatus({ type: '', msg: '' });
 
         const formData = new FormData();
-        formData.append('file', file);
+        files.forEach(f => {
+            formData.append('files', f);
+        });
 
         try {
             const response = await axios.post('http://localhost:8000/files/upload', formData, {
@@ -51,16 +53,12 @@ function FileUploader({ token, onUploadSuccess }) {
                 }
             });
 
-            setStatus({ type: 'success', msg: 'Ready to chat!' });
+            setStatus({ type: 'success', msg: `Successfully uploaded ${files.length} files!` });
 
             if (onUploadSuccess) {
-                onUploadSuccess({
-                    filename: file.name,
-                    type: file.name.split('.').pop().toLowerCase(),
-                    url: URL.createObjectURL(file),
-                    summary: response.data.summary,
-                });
+                onUploadSuccess(response.data.files);
             }
+            setFiles([]);
 
         } catch (err) {
             console.error(err);
@@ -85,12 +83,13 @@ function FileUploader({ token, onUploadSuccess }) {
                 type="file"
                 id="file-upload"
                 className="hidden"
+                multiple
                 onChange={handleFileChange}
             />
 
             <div className="flex flex-col items-center justify-center text-center space-y-4">
                 <div className={`p-4 rounded-full bg-slate-700/50 mb-2 transition-transform duration-300 group-hover:scale-110 ${dragActive ? 'bg-blue-500/20' : ''}`}>
-                    {file ? (
+                    {files.length > 0 ? (
                         <FileIcon size={32} className="text-blue-400" />
                     ) : (
                         <UploadCloud size={32} className="text-slate-400 group-hover:text-blue-400 transition-colors" />
@@ -99,28 +98,31 @@ function FileUploader({ token, onUploadSuccess }) {
 
                 <div className="space-y-1">
                     <h3 className="text-lg font-semibold text-slate-200">
-                        {file ? file.name : "Upload Document or Media"}
+                        {files.length > 0 ? `${files.length} files selected` : "Upload Documents or Media"}
                     </h3>
                     <p className="text-sm text-slate-500">
-                        {file ? (
-                            <span className="text-blue-400 font-medium">File selected</span>
+                        {files.length > 0 ? (
+                            <span className="text-blue-400 font-medium">
+                                {files.map(f => f.name).join(', ').substring(0, 50)}
+                                {files.map(f => f.name).join(', ').length > 50 ? '...' : ''}
+                            </span>
                         ) : (
-                            "Drag & drop or Click to Browse"
+                            "Drag & drop multiple files or Click to Browse"
                         )}
                     </p>
                 </div>
 
                 <div className="flex gap-3 mt-4 w-full max-w-xs">
-                    {!file ? (
+                    {files.length === 0 ? (
                         <label
                             htmlFor="file-upload"
                             className="flex-1 cursor-pointer py-2.5 px-4 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg text-sm font-medium transition-colors text-center border border-white/5 hover:border-white/20"
                         >
-                            Choose File
+                            Choose Files
                         </label>
                     ) : (
                         <button
-                            onClick={() => setFile(null)}
+                            onClick={() => setFiles([])}
                             disabled={uploading}
                             className="flex-1 py-2.5 px-4 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg text-sm font-medium transition-colors border border-white/5 cursor-pointer"
                         >
@@ -130,11 +132,11 @@ function FileUploader({ token, onUploadSuccess }) {
 
                     <button
                         onClick={handleUpload}
-                        disabled={!file || uploading}
+                        disabled={files.length === 0 || uploading}
                         className="flex-1 py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-semibold shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center cursor-pointer"
                     >
                         {uploading ? <Loader2 size={16} className="animate-spin mr-2" /> : null}
-                        {uploading ? 'Processing...' : 'Upload Now'}
+                        {uploading ? 'Processing...' : 'Upload All'}
                     </button>
                 </div>
 

@@ -1,0 +1,25 @@
+# Test files
+test_file_*.txt
+
+# Environments & Secrets
+**/.env
+.env.*
+!.env.example
+
+# Node
+**/node_modules/
+**/dist/
+**/build/
+.eslintcache
+
+# Python
+**/venv/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+
+# OS files
+.DS_Store
+Thumbs.db

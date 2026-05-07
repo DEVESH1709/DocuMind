@@ -17,79 +17,80 @@ settings = Settings()
 from fastapi import Request
 
 @router.post("/")
-async def chat_answer(query:ChatQuery, request:Request):
+async def chat_answer(query:ChatQuery, request:Request, user: dict = Depends(get_current_user)):
     db = request.app.database
-    latest_file = await db["files"].find_one(sort =[("_id",-1)])
-    context = ""
-    timestamp_segments = []
-    file_type ="unknwown"
-
-    if latest_file:
-        context = latest_file.get("text","")
-        timestamp_segments = latest_file.get("segments", [])
-        file_type = latest_file.get("type","pdf")
-    else:
-        context= global_state.last_uploaded_text
-
-    if not context:
-        return {"answer": "I don't have any file context yet. Please upload a PDF, Audio, or Video file first."}
+    user_email = user.get("email")
     
-    answer=""
-    timestamp_str = ""
+    # Fetch all files for this user
+    user_files = await db["files"].find({"user_email": user_email}).to_list(length=50)
+    
+    if not user_files:
+        return {"answer": "I don't have any file context yet. Please upload one or more files first."}
 
+    # Construct combined context
+    combined_context = ""
+    for f in user_files:
+        filename = f.get("filename", "Unknown")
+        text = f.get("text", "")
+        combined_context += f"--- DOCUMENT: {filename} ---\n{text}\n\n"
+
+    answer = ""
     if settings.GROQ_API_KEY:
         try:
-            print("ATTEMPTING GROQ LLM (Llama 3)...")
+            print(f"ATTEMPTING GROQ LLM with {len(user_files)} documents...")
             from langchain_groq import ChatGroq
             from langchain_core.prompts import PromptTemplate
 
             llm = ChatGroq(temperature=0, model_name="llama-3.3-70b-versatile", groq_api_key=settings.GROQ_API_KEY)
 
-            prompt = PromptTemplate(
-                input_variables=["context","question"],
-                template="You are a helpful assistant. Use the following context to answer the question briefly.\n\nContext:\n{context}\n\nQuestion: {question}\nAnswer:"
-            )
+            # Refined prompt for multi-document cross-referencing
+            template = """You are a highly capable AI assistant specializing in multi-document analysis and cross-referencing.
+Your goal is to answer the user's question based on the provided document contexts.
 
+When multiple documents are present:
+1. Compare and contrast information between them if relevant.
+2. If Document A says something that Document B contradicts, highlight it.
+3. Explicitly mention which document you are referencing (e.g., "According to [Filename]...").
+4. If the answer isn't in any document, say so.
+
+Context:
+{context}
+
+Question: {question}
+Answer:"""
+
+            prompt = PromptTemplate(input_variables=["context","question"], template=template)
             chain = prompt | llm
-            safe_context = context[:25000]
+            
+            # Truncate context to stay within limits (roughly 25k chars)
+            safe_context = combined_context[:25000]
 
             response = chain.invoke({"context": safe_context, "question": query.question})
             answer = response.content
             print("GROQ SUCCESS")
 
         except Exception as e:
-            print(f"GROQ FAILED. SWITCHING TO OFFLINE MODE. Error: {e}")
-            pass
+            print(f"GROQ FAILED. Error: {e}")
+            answer = "I'm having trouble connecting to the AI service. Please try again later."
     else:
-        print("USING OFFLINE MODE (No Groq API Key Found)")
+        # Fallback to simple keyword search across all documents
+        question_tokens = query.question.lower().split()
+        relevant_hits = []
+        
+        for f in user_files:
+            text = f.get("text", "")
+            filename = f.get("filename", "Unknown")
+            sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)
+            for sentence in sentences:
+                score = sum(1 for token in question_tokens if token in sentence.lower())
+                if score > 0:
+                    relevant_hits.append((score, filename, sentence))
+        
+        relevant_hits.sort(key=lambda x: x[0], reverse=True)
+        if relevant_hits:
+            best = relevant_hits[0]
+            answer = f"From {best[1]}: \"{best[2].strip()}\""
+        else:
+            answer = "I couldn't find a specific match in your documents. Try asking something more specific."
 
-    question_tokens = query.question.lower().split()
-    relevant_sentences = []
-    sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', context)
-    
-    for sentence in sentences:
-        score = sum(1 for token in question_tokens if token in sentence.lower())
-        if score > 0:
-            relevant_sentences.append((score, sentence))
-    relevant_sentences.sort(key=lambda x: x[0], reverse=True)
-
-    if relevant_sentences:
-        best_sentence = relevant_sentences[0][1].strip() 
-       
-        if not answer:
-            answer = f"Based on the file: \"{best_sentence}\""
-
-        if file_type == 'audio' and timestamp_segments:
-            for seg in timestamp_segments:
-
-                if best_sentence[:20] in seg['text']: 
-                    start_time = int(seg['start'])
-                    minutes = start_time // 60
-                    seconds = start_time % 60
-                    timestamp_str = f" [{minutes:02}:{seconds:02}]"
-                    break
-
-    if not answer:
-        answer = "I couldn't find a specific answer in the uploaded file, but I've processed its content. Try asking about specific keywords found in the document."
-
-    return {"answer": f"{answer}{timestamp_str}"}
+    return {"answer": answer}

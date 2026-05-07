@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Send, Loader2, Play, Bot, User } from 'lucide-react';
 
-function Chatbot({ token, onTimestampClick }) {
+function Chatbot({ token, onTimestampClick, files = [] }) {
     const [question, setQuestion] = useState('');
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -75,23 +75,50 @@ function Chatbot({ token, onTimestampClick }) {
     return (
         <div className="flex flex-col h-[600px] bg-slate-900 rounded-2xl shadow-xl border border-white/10 overflow-hidden ring-1 ring-white/5">
 
-            <div className="p-4 bg-slate-800/80 border-b border-white/10 flex items-center gap-3 backdrop-blur-sm">
-                <div className="bg-gradient-to-tr from-blue-500 to-cyan-500 p-2 rounded-lg shadow-lg shadow-blue-500/20">
-                    <Bot size={20} className="text-white" />
+            <div className="p-4 bg-slate-800/80 border-b border-white/10 flex items-center justify-between backdrop-blur-sm">
+                <div className="flex items-center gap-3">
+                    <div className="bg-gradient-to-tr from-blue-500 to-cyan-500 p-2 rounded-lg shadow-lg shadow-blue-500/20">
+                        <Bot size={20} className="text-white" />
+                    </div>
+                    <div>
+                        <h3 className="text-sm font-bold text-slate-100">AI Assistant</h3>
+                        <p className="text-xs text-slate-400 flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Online
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h3 className="text-sm font-bold text-slate-100">AI Assistant</h3>
-                    <p className="text-xs text-slate-400 flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Online
-                    </p>
-                </div>
+                {files.length > 1 && (
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">
+                        <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">Multi-Doc mode</span>
+                    </div>
+                )}
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-slate-900/50 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
                 {messages.length === 0 && (
-                    <div className="flex flex-col items-center justify-center h-full text-slate-500 space-y-4 opacity-50">
-                        <Bot size={48} className="text-slate-700" />
-                        <p className="text-sm">Ask anything about your file...</p>
+                    <div className="flex flex-col items-center justify-center h-full text-slate-500 space-y-4">
+                        <Bot size={48} className="text-slate-700 opacity-20" />
+                        <div className="text-center space-y-2">
+                             <p className="text-sm font-medium text-slate-400">
+                                 {files.length > 1 ? "Cross-referencing mode active!" : "Ready to analyze your files."}
+                             </p>
+                             <p className="text-[11px] text-slate-500 max-w-[220px] mx-auto leading-relaxed">
+                                 {files.length > 1 
+                                     ? `You can now ask questions spanning across your ${files.length} uploaded documents.` 
+                                     : "Ask anything about your uploaded document, audio, or video."}
+                             </p>
+                        </div>
+                        
+                        {files.length > 1 && (
+                            <div className="bg-blue-500/5 border border-blue-500/10 p-3 rounded-xl max-w-[240px] animate-in fade-in slide-in-from-bottom-2 duration-700">
+                                <p className="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-2 flex items-center gap-1.5">
+                                    <Info size={12} /> Pro Tip
+                                </p>
+                                <p className="text-[11px] text-slate-400 italic">
+                                    Try: "Compare Document A and B" or "Find differences between files"
+                                </p>
+                            </div>
+                        )}
                     </div>
                 )}
 

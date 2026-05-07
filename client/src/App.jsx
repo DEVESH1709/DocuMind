@@ -3,6 +3,7 @@ import axios from 'axios';
 import Chatbot from './components/Chatbot';
 import FileUploader from './components/FileUploader';
 import MediaPlayer from './components/MediaPlayer';
+import DocumentLibrary from './components/DocumentLibrary';
 import SummaryDisplay from './components/SummaryDisplay';
 import Auth from './components/Auth';
 
@@ -10,19 +11,43 @@ import Auth from './components/Auth';
 function App() {
   const [token, setToken] = useState(null);
   const [seekCommand, setSeekCommand] = useState(null);
-  const [currentFile, setCurrentFile] = useState(null);
-  // const [loginLoading, setLoginLoading] = useState(false);
+  const [files, setFiles] = useState([]);
+  const [loadingFiles, setLoadingFiles] = useState(false);
+
+  const fetchFiles = async (authToken) => {
+    try {
+      setLoadingFiles(true);
+      const response = await axios.get('http://localhost:8000/files/', {
+        headers: { Authorization: authToken }
+      });
+      setFiles(response.data);
+    } catch (err) {
+      console.error("Error fetching files:", err);
+    } finally {
+      setLoadingFiles(false);
+    }
+  };
 
   const handleAuthSuccess = (newToken) => {
     setToken(newToken);
+    fetchFiles(newToken);
   };
 
-  const handleUploadSuccess = (data) => {
-    setCurrentFile({
-      url: data.url || null,
-      summary: data.summary || "Summary will appear here after backend implementation.",
-      type: data.type || 'unknown'
-    });
+  const handleUploadSuccess = (newFiles) => {
+    // newFiles is an array of objects from the backend
+    setFiles(prev => [...newFiles, ...prev]);
+  };
+
+  const handleDeleteFile = async (fileId) => {
+    try {
+      await axios.delete(`http://localhost:8000/files/${fileId}`, {
+        headers: { Authorization: token }
+      });
+      setFiles(prev => prev.filter(f => (f._id || f.id) !== fileId));
+    } catch (err) {
+      console.error("Error deleting file:", err);
+      alert("Failed to delete file.");
+    }
   };
 
   const handleTimestampClick = (seconds) => {
@@ -45,12 +70,12 @@ function App() {
           </div>
           <div className="flex items-center gap-4">
             {token && (
-              <button onClick={() => setToken(null)} className="text-sm text-slate-400 hover:text-white transition-colors cursor-pointer">
+              <button onClick={() => { setToken(null); setFiles([]); }} className="text-sm text-slate-400 hover:text-white transition-colors cursor-pointer">
                 Logout
               </button>
             )}
             <p className="text-sm font-medium text-slate-400 bg-slate-800/50 px-3 py-1 rounded-full border border-white/5">
-              AI-Powered Workspace
+              Multi-Document Workspace
             </p>
           </div>
         </div>
@@ -66,7 +91,7 @@ function App() {
                 Unlock Knowledge from Your Files.
               </h2>
               <p className="text-lg text-slate-400">
-                Upload documents, audio, or video. Get AI summaries and ask questions instantly.
+                Upload multiple documents, audio, or video. Get AI cross-references and ask questions across all of them.
               </p>
             </div>
 
@@ -81,23 +106,13 @@ function App() {
                 <FileUploader token={token} onUploadSuccess={handleUploadSuccess} />
               </section>
 
-              {currentFile && (
-                <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-                  {['audio', 'video', 'mp3', 'wav', 'mp4'].some(ext => currentFile.type?.includes(ext)) && currentFile.url && (
-                    <div className="bg-slate-800/50 p-1 rounded-2xl border border-white/5 shadow-2xl">
-                      <MediaPlayer url={currentFile.url} seekCommand={seekCommand} />
-                    </div>
-                  )}
-
-                  <div className="mt-6">
-                    <SummaryDisplay summary={currentFile.summary} />
-                  </div>
-                </section>
-              )}
+              <section className="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <DocumentLibrary files={files} loading={loadingFiles} onDelete={handleDeleteFile} />
+              </section>
             </div>
             <div className="lg:col-span-4">
               <div className="sticky top-24">
-                <Chatbot key={currentFile?.url} token={token} onTimestampClick={handleTimestampClick} />
+                <Chatbot token={token} onTimestampClick={handleTimestampClick} files={files} />
               </div>
             </div>
           </div>

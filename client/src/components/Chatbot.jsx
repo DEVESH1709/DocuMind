@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Send, Loader2, Play, Bot, User, Info } from 'lucide-react';
+import { Send, Loader2, Play, Bot, User, Info, RotateCcw } from 'lucide-react';
 
 function Chatbot({ token, onTimestampClick, files = [] }) {
     const [question, setQuestion] = useState('');
@@ -15,6 +15,13 @@ function Chatbot({ token, onTimestampClick, files = [] }) {
     useEffect(() => {
         scrollToBottom();
     }, [messages, loading]);
+
+    const handleNewChat = () => {
+        if (messages.length > 0) {
+            setMessages([]);
+            setQuestion('');
+        }
+    };
 
     const handleAsk = async () => {
         if (!question.trim()) return;
@@ -89,11 +96,20 @@ function Chatbot({ token, onTimestampClick, files = [] }) {
                         </p>
                     </div>
                 </div>
-                {files.length > 1 && (
-                    <div className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
-                        <span className="text-[10px] font-bold text-white uppercase tracking-wider">Multi-Doc</span>
-                    </div>
-                )}
+                <div className="flex items-center gap-2">
+                    <button 
+                        onClick={handleNewChat}
+                        className="p-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 transition-all text-white cursor-pointer group/btn"
+                        title="New Chat"
+                    >
+                        <RotateCcw size={16} className="group-hover/btn:rotate-[-45deg] transition-transform" />
+                    </button>
+                    {files.length > 1 && (
+                        <div className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
+                            <span className="text-[10px] font-bold text-white uppercase tracking-wider">Multi-Doc</span>
+                        </div>
+                    )}
+                </div>
             </div>
 
             <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-transparent relative z-10 scrollbar-thin scrollbar-thumb-blue-100 scrollbar-track-transparent">

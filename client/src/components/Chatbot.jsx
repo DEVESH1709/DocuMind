@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Send, Loader2, Play, Bot, User } from 'lucide-react';
+import { Send, Loader2, Play, Bot, User, Info } from 'lucide-react';
 
 function Chatbot({ token, onTimestampClick, files = [] }) {
     const [question, setQuestion] = useState('');

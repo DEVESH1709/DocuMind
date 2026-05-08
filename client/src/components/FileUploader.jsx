@@ -70,9 +70,9 @@ function FileUploader({ token, onUploadSuccess }) {
 
     return (
         <div
-            className={`relative group bg-slate-800/40 backdrop-blur-sm p-8 rounded-2xl border-2 transition-all duration-300 ${dragActive
-                ? 'border-blue-500 bg-blue-500/10 scale-[1.01]'
-                : 'border-white/5 hover:border-white/10 hover:bg-slate-800/60'
+            className={`relative group bg-white p-8 rounded-2xl border-2 transition-all duration-300 ${dragActive
+                ? 'border-blue-500 bg-blue-50 scale-[1.01]'
+                : 'border-slate-100 hover:border-blue-200 hover:bg-slate-50'
                 }`}
             onDragEnter={handleDrag}
             onDragLeave={handleDrag}
@@ -88,21 +88,21 @@ function FileUploader({ token, onUploadSuccess }) {
             />
 
             <div className="flex flex-col items-center justify-center text-center space-y-4">
-                <div className={`p-4 rounded-full bg-slate-700/50 mb-2 transition-transform duration-300 group-hover:scale-110 ${dragActive ? 'bg-blue-500/20' : ''}`}>
+                <div className={`p-4 rounded-full bg-slate-50 mb-2 transition-transform duration-300 group-hover:scale-110 border border-slate-100 ${dragActive ? 'bg-blue-100 border-blue-200' : ''}`}>
                     {files.length > 0 ? (
-                        <FileIcon size={32} className="text-blue-400" />
+                        <FileIcon size={32} className="text-blue-600" />
                     ) : (
-                        <UploadCloud size={32} className="text-slate-400 group-hover:text-blue-400 transition-colors" />
+                        <UploadCloud size={32} className="text-slate-400 group-hover:text-blue-600 transition-colors" />
                     )}
                 </div>
 
                 <div className="space-y-1">
-                    <h3 className="text-lg font-semibold text-slate-200">
+                    <h3 className="text-lg font-semibold text-slate-800">
                         {files.length > 0 ? `${files.length} files selected` : "Upload Documents or Media"}
                     </h3>
                     <p className="text-sm text-slate-500">
                         {files.length > 0 ? (
-                            <span className="text-blue-400 font-medium">
+                            <span className="text-blue-600 font-medium">
                                 {files.map(f => f.name).join(', ').substring(0, 50)}
                                 {files.map(f => f.name).join(', ').length > 50 ? '...' : ''}
                             </span>
@@ -116,7 +116,7 @@ function FileUploader({ token, onUploadSuccess }) {
                     {files.length === 0 ? (
                         <label
                             htmlFor="file-upload"
-                            className="flex-1 cursor-pointer py-2.5 px-4 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg text-sm font-medium transition-colors text-center border border-white/5 hover:border-white/20"
+                            className="flex-1 cursor-pointer py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-700 rounded-lg text-sm font-medium transition-colors text-center border border-slate-200 hover:border-blue-300 shadow-sm"
                         >
                             Choose Files
                         </label>
@@ -124,7 +124,7 @@ function FileUploader({ token, onUploadSuccess }) {
                         <button
                             onClick={() => setFiles([])}
                             disabled={uploading}
-                            className="flex-1 py-2.5 px-4 bg-slate-700 hover:bg-slate-600 text-slate-300 rounded-lg text-sm font-medium transition-colors border border-white/5 cursor-pointer"
+                            className="flex-1 py-2.5 px-4 bg-white hover:bg-slate-50 text-slate-500 rounded-lg text-sm font-medium transition-colors border border-slate-200 cursor-pointer shadow-sm"
                         >
                             Cancel
                         </button>
@@ -133,7 +133,7 @@ function FileUploader({ token, onUploadSuccess }) {
                     <button
                         onClick={handleUpload}
                         disabled={files.length === 0 || uploading}
-                        className="flex-1 py-2.5 px-4 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-semibold shadow-lg shadow-blue-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center cursor-pointer"
+                        className="flex-1 py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-semibold shadow-lg shadow-blue-600/10 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center cursor-pointer"
                     >
                         {uploading ? <Loader2 size={16} className="animate-spin mr-2" /> : null}
                         {uploading ? 'Processing...' : 'Upload All'}
@@ -141,7 +141,7 @@ function FileUploader({ token, onUploadSuccess }) {
                 </div>
 
                 {status.msg && (
-                    <div className={`mt-4 flex items-center text-sm font-medium animate-in fade-in slide-in-from-top-2 ${status.type === 'success' ? 'text-green-400' : 'text-red-400'
+                    <div className={`mt-4 flex items-center text-sm font-medium animate-in fade-in slide-in-from-top-2 ${status.type === 'success' ? 'text-green-600' : 'text-red-600'
                         }`}>
                         {status.type === 'success' ? <CheckCircle size={16} className="mr-2" /> : <AlertCircle size={16} className="mr-2" />}
                         {status.msg}

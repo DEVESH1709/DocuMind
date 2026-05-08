@@ -73,49 +73,53 @@ function Chatbot({ token, onTimestampClick, files = [] }) {
     };
 
     return (
-        <div className="flex flex-col h-[600px] bg-slate-900 rounded-2xl shadow-xl border border-white/10 overflow-hidden ring-1 ring-white/5">
+        <div className="flex flex-col h-[650px] bg-white rounded-[2rem] shadow-2xl shadow-blue-900/10 border border-blue-50/50 overflow-hidden relative group">
+            
+            <div className="absolute inset-0 bg-gradient-to-b from-blue-50/20 to-transparent pointer-events-none" />
 
-            <div className="p-4 bg-slate-800/80 border-b border-white/10 flex items-center justify-between backdrop-blur-sm">
+            <div className="p-5 bg-gradient-to-r from-blue-600 via-blue-600 to-indigo-700 flex items-center justify-between relative z-10">
                 <div className="flex items-center gap-3">
-                    <div className="bg-gradient-to-tr from-blue-500 to-cyan-500 p-2 rounded-lg shadow-lg shadow-blue-500/20">
-                        <Bot size={20} className="text-white" />
+                    <div className="bg-white/20 backdrop-blur-md p-2 rounded-xl border border-white/20 shadow-inner">
+                        <Bot size={22} className="text-white" />
                     </div>
                     <div>
-                        <h3 className="text-sm font-bold text-slate-100">AI Assistant</h3>
-                        <p className="text-xs text-slate-400 flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" /> Online
+                        <h3 className="text-base font-bold text-white tracking-tight">AI Analyst</h3>
+                        <p className="text-[10px] text-blue-100 flex items-center gap-1 font-bold uppercase tracking-widest opacity-80">
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" /> Live Now
                         </p>
                     </div>
                 </div>
                 {files.length > 1 && (
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20">
-                        <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider">Multi-Doc mode</span>
+                    <div className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20">
+                        <span className="text-[10px] font-bold text-white uppercase tracking-wider">Multi-Doc</span>
                     </div>
                 )}
             </div>
 
-            <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-slate-900/50 scrollbar-thin scrollbar-thumb-slate-700 scrollbar-track-transparent">
+            <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-transparent relative z-10 scrollbar-thin scrollbar-thumb-blue-100 scrollbar-track-transparent">
                 {messages.length === 0 && (
-                    <div className="flex flex-col items-center justify-center h-full text-slate-500 space-y-4">
-                        <Bot size={48} className="text-slate-700 opacity-20" />
-                        <div className="text-center space-y-2">
-                             <p className="text-sm font-medium text-slate-400">
-                                 {files.length > 1 ? "Cross-referencing mode active!" : "Ready to analyze your files."}
+                    <div className="flex flex-col items-center justify-center h-full text-slate-400 space-y-6">
+                        <div className="w-20 h-20 rounded-3xl bg-blue-50 flex items-center justify-center border border-blue-100 animate-pulse">
+                            <Bot size={40} className="text-blue-200" />
+                        </div>
+                        <div className="text-center space-y-3">
+                             <p className="text-lg font-bold text-slate-800">
+                                 {files.length > 1 ? "Ready for Comparison" : "How can I help?"}
                              </p>
-                             <p className="text-[11px] text-slate-500 max-w-[220px] mx-auto leading-relaxed">
+                             <p className="text-sm text-slate-400 max-w-[240px] mx-auto leading-relaxed">
                                  {files.length > 1 
-                                     ? `You can now ask questions spanning across your ${files.length} uploaded documents.` 
-                                     : "Ask anything about your uploaded document, audio, or video."}
+                                     ? `I've analyzed your ${files.length} documents. Ask me to compare or find data across them.` 
+                                     : "Ask anything about your document, audio, or video files."}
                              </p>
                         </div>
                         
                         {files.length > 1 && (
-                            <div className="bg-blue-500/5 border border-blue-500/10 p-3 rounded-xl max-w-[240px] animate-in fade-in slide-in-from-bottom-2 duration-700">
-                                <p className="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-2 flex items-center gap-1.5">
-                                    <Info size={12} /> Pro Tip
+                            <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-4 rounded-2xl max-w-[260px] shadow-lg shadow-blue-600/20 transform hover:-translate-y-1 transition-transform">
+                                <p className="text-[10px] text-white/70 font-bold uppercase tracking-widest mb-2 flex items-center gap-1.5">
+                                    <Info size={12} /> Expert Suggestion
                                 </p>
-                                <p className="text-[11px] text-slate-400 italic">
-                                    Try: "Compare Document A and B" or "Find differences between files"
+                                <p className="text-xs text-white leading-relaxed">
+                                    "Explain the main differences between all uploaded files."
                                 </p>
                             </div>
                         )}
@@ -123,15 +127,15 @@ function Chatbot({ token, onTimestampClick, files = [] }) {
                 )}
 
                 {messages.map((msg, idx) => (
-                    <div key={idx} className={`flex gap-3 ${msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.type === 'user' ? 'bg-indigo-600' : 'bg-slate-700'
+                    <div key={idx} className={`flex gap-3 ${msg.type === 'user' ? 'flex-row-reverse' : 'flex-row'} animate-in fade-in slide-in-from-bottom-2 duration-300`}>
+                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 shadow-sm ${msg.type === 'user' ? 'bg-gradient-to-br from-blue-600 to-indigo-600' : 'bg-white border border-slate-100'
                             }`}>
-                            {msg.type === 'user' ? <User size={14} className="text-white" /> : <Bot size={14} className="text-blue-300" />}
+                            {msg.type === 'user' ? <User size={16} className="text-white" /> : <Bot size={16} className="text-blue-600" />}
                         </div>
 
-                        <div className={`max-w-[85%] rounded-2xl px-5 py-3 text-sm leading-relaxed shadow-sm ${msg.type === 'user'
-                            ? 'bg-indigo-600 text-white rounded-tr-sm'
-                            : 'bg-slate-800 text-slate-200 border border-white/5 rounded-tl-sm'
+                        <div className={`max-w-[85%] rounded-2xl px-5 py-3.5 text-[13px] leading-relaxed shadow-sm ${msg.type === 'user'
+                            ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-tr-sm'
+                            : 'bg-white text-slate-700 border border-slate-100 rounded-tl-sm'
                             }`}>
                             {msg.type === 'user' ? msg.text : renderMessage(msg.text)}
                         </div>
@@ -139,15 +143,15 @@ function Chatbot({ token, onTimestampClick, files = [] }) {
                 ))}
 
                 {loading && (
-                    <div className="flex gap-3">
-                        <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center shrink-0">
-                            <Bot size={14} className="text-blue-300" />
+                    <div className="flex gap-3 animate-in fade-in duration-300">
+                        <div className="w-9 h-9 rounded-xl bg-white border border-slate-100 flex items-center justify-center shrink-0">
+                            <Bot size={16} className="text-blue-600" />
                         </div>
-                        <div className="bg-slate-800 rounded-2xl rounded-tl-sm px-5 py-3 border border-white/5 flex items-center gap-2">
-                            <div className="flex space-x-1">
-                                <div className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                                <div className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                                <div className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce"></div>
+                        <div className="bg-white rounded-2xl rounded-tl-sm px-5 py-3.5 border border-slate-100 flex items-center gap-2 shadow-sm">
+                            <div className="flex space-x-1.5">
+                                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                                <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
                             </div>
                         </div>
                     </div>
@@ -155,11 +159,11 @@ function Chatbot({ token, onTimestampClick, files = [] }) {
                 <div ref={messagesEndRef} />
             </div>
 
-            <div className="p-4 bg-slate-900 border-t border-white/10">
-                <div className="relative flex items-center gap-2 bg-slate-800 rounded-xl p-1.5 ring-1 ring-white/10 focus-within:ring-2 focus-within:ring-blue-500/50 transition-all shadow-inner">
+            <div className="p-6 bg-white/50 backdrop-blur-md border-t border-slate-100 relative z-10">
+                <div className="relative flex items-center gap-2 bg-white rounded-2xl p-2 border border-slate-200 focus-within:border-blue-400 focus-within:ring-4 focus-within:ring-blue-100 transition-all shadow-sm">
                     <input
                         type="text"
-                        className="flex-1 bg-transparent border-none focus:outline-none text-sm text-slate-200 px-4 placeholder:text-slate-500 h-10"
+                        className="flex-1 bg-transparent border-none focus:outline-none text-sm text-slate-700 px-4 placeholder:text-slate-400 h-10"
                         placeholder="Type your question..."
                         value={question}
                         onChange={(e) => setQuestion(e.target.value)}
@@ -168,7 +172,7 @@ function Chatbot({ token, onTimestampClick, files = [] }) {
                     <button
                         onClick={handleAsk}
                         disabled={loading || !question.trim()}
-                        className="p-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg disabled:opacity-50 disabled:bg-slate-700 disabled:text-slate-500 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-blue-500/20 cursor-pointer"
+                        className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white rounded-xl disabled:opacity-30 disabled:grayscale transition-all flex items-center justify-center shadow-lg shadow-blue-600/20 cursor-pointer active:scale-95"
                     >
                         <Send size={18} />
                     </button>

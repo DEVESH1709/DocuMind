@@ -80,7 +80,7 @@ function Chatbot({ token, onTimestampClick, files = [] }) {
     };
 
     return (
-        <div className="flex flex-col h-[650px] bg-white rounded-[2rem] shadow-2xl shadow-blue-900/10 border border-blue-50/50 overflow-hidden relative group">
+        <div className="flex flex-col h-[calc(100vh-170px)] min-h-[500px] bg-white rounded-[2rem] shadow-2xl shadow-blue-900/10 border border-blue-50/50 overflow-hidden relative group">
             
             <div className="absolute inset-0 bg-gradient-to-b from-blue-50/20 to-transparent pointer-events-none" />
 
@@ -112,7 +112,7 @@ function Chatbot({ token, onTimestampClick, files = [] }) {
                 </div>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-transparent relative z-10 scrollbar-thin scrollbar-thumb-blue-100 scrollbar-track-transparent">
+            <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-transparent relative z-10 no-scrollbar">
                 {messages.length === 0 && (
                     <div className="flex flex-col items-center justify-center h-full text-slate-400 space-y-6">
                         <div className="w-20 h-20 rounded-3xl bg-blue-50 flex items-center justify-center border border-blue-100 animate-pulse">

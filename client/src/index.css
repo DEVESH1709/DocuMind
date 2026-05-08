@@ -1,9 +1,19 @@
 @import "tailwindcss";
 
-/* Global Custom Scrollbar */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Global Custom Scrollbar - Minimal and subtle */
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -11,18 +21,16 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #334155;
-    /* slate-700 */
-    border-radius: 4px;
+    background: rgba(59, 130, 246, 0.2); /* Very subtle blue */
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #475569;
-    /* slate-600 */
+    background: rgba(59, 130, 246, 0.4);
 }
 
 /* Firefox support */
 * {
     scrollbar-width: thin;
-    scrollbar-color: #334155 transparent;
+    scrollbar-color: rgba(59, 130, 246, 0.2) transparent;
 }

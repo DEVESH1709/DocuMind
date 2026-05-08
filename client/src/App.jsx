@@ -63,7 +63,7 @@ function App() {
       </div>
 
       <header className="sticky top-0 z-50 bg-white/70 backdrop-blur-xl border-b border-blue-100 shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-[1600px] mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-600 to-indigo-700 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-600/30 transform hover:rotate-3 transition-transform cursor-default">
               DM
@@ -94,9 +94,9 @@ function App() {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-10 relative z-10">
+      <main className="max-w-[1600px] mx-auto px-6 h-[calc(100vh-80px)] overflow-hidden relative z-10">
         {!token && (
-          <div className="flex flex-col items-center justify-center py-20 space-y-10">
+          <div className="flex flex-col items-center justify-center h-full py-20 space-y-10 overflow-y-auto">
             <div className="text-center max-w-3xl space-y-6">
               <div className="inline-block px-4 py-1.5 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest mb-4">
                 Next-Gen Document AI
@@ -115,8 +115,9 @@ function App() {
         )}
 
         {token && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <div className="lg:col-span-8 space-y-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 h-full py-10">
+            {/* Left Side: Scrollable */}
+            <div className="lg:col-span-8 space-y-10 overflow-y-auto pr-4 no-scrollbar pb-20">
               <section className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
                 <FileUploader token={token} onUploadSuccess={handleUploadSuccess} />
               </section>
@@ -125,8 +126,10 @@ function App() {
                 <DocumentLibrary files={files} loading={loadingFiles} onDelete={handleDeleteFile} />
               </section>
             </div>
-            <div className="lg:col-span-4">
-              <div className="sticky top-28">
+
+            {/* Right Side: Static */}
+            <div className="lg:col-span-4 h-full flex items-start">
+              <div className="w-full sticky top-0">
                 <Chatbot token={token} onTimestampClick={handleTimestampClick} files={files} />
               </div>
             </div>

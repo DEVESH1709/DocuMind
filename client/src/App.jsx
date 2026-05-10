@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { FileText, Music, Video, Globe } from 'lucide-react';
 import Chatbot from './components/Chatbot';
 import FileUploader from './components/FileUploader';
 import MediaPlayer from './components/MediaPlayer';
@@ -81,10 +82,19 @@ function App() {
             </nav>
             <div className="h-6 w-px bg-slate-200 hidden md:block" />
             <div className="flex items-center gap-4">
-              {token && (
+              {token ? (
                 <button onClick={() => { setToken(null); setFiles([]); }} className="text-sm font-bold text-red-500 hover:text-red-600 transition-colors cursor-pointer px-4 py-2 hover:bg-red-50 rounded-lg">
                   Logout
                 </button>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <button onClick={() => { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }} className="text-sm font-bold text-slate-600 hover:text-blue-600 transition-colors cursor-pointer px-4 py-2">
+                    Sign In
+                  </button>
+                  <button onClick={() => { window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }} className="text-sm font-bold bg-blue-50 text-blue-600 px-4 py-2 rounded-xl hover:bg-blue-100 transition-colors cursor-pointer">
+                    Sign Up
+                  </button>
+                </div>
               )}
               <div className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-600/20">
                 <span className="text-xs font-bold uppercase tracking-widest">Pro Workspace</span>
@@ -96,23 +106,41 @@ function App() {
 
       <main className="max-w-[1600px] mx-auto px-6 h-[calc(100vh-80px)] overflow-hidden relative z-10">
         {!token && (
-          <div className="flex flex-col items-center justify-center h-full py-20 space-y-10 overflow-y-auto">
-            <div className="text-center max-w-3xl space-y-6">
-              <div className="inline-block px-4 py-1.5 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest mb-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center h-full py-10 overflow-y-auto no-scrollbar">
+            <div className="space-y-8 lg:text-left text-center">
+              <div className="inline-block px-4 py-1.5 rounded-full bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest">
                 Next-Gen Document AI
               </div>
-              <h2 className="text-5xl md:text-7xl font-black tracking-tight text-slate-900 leading-tight">
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.1]">
                 Understand your files <br/> 
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">faster than ever.</span>
               </h2>
-              <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-                The most powerful AI tool for cross-referencing documents, audio, and video in one unified workspace.
+              <p className="text-xl text-slate-600 max-w-xl lg:mx-0 mx-auto leading-relaxed">
+                The most powerful AI tool for cross-referencing documents, audio, and video in one unified workspace. Join thousands of users today.
               </p>
+              
+              <div className="flex flex-wrap items-center lg:justify-start justify-center gap-4 pt-6">
+                 {[
+                   { icon: <FileText size={18} />, label: "PDF Documents" },
+                   { icon: <Music size={18} />, label: "Audio Files" },
+                   { icon: <Video size={18} />, label: "Video Q&A" }
+                 ].map((item, idx) => (
+                   <div key={idx} className="flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-white border border-slate-100 shadow-sm">
+                      <div className="text-blue-600">{item.icon}</div>
+                      <span className="text-sm font-bold text-slate-700">{item.label}</span>
+                   </div>
+                 ))}
+              </div>
             </div>
 
-            <Auth onLoginSuccess={handleAuthSuccess} />
+            <div id="auth-section" className="w-full max-w-md lg:ml-auto mx-auto pb-20">
+
+              <Auth onLoginSuccess={handleAuthSuccess} />
+            </div>
           </div>
         )}
+
+
 
         {token && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 h-full py-10">

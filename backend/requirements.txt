@@ -10,7 +10,7 @@ openai
 faiss-cpu
 pytest
 python-multipart
-openai-whisper
+groq
 ffmpeg-python
 requests
 pydantic-settings

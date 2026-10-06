@@ -2,6 +2,7 @@ import pytest
 from httpx import AsyncClient
 from unittest.mock import patch, MagicMock
 from state import global_state
+from main import app
 
 @pytest.fixture
 def mock_llm_chain():
@@ -34,22 +35,24 @@ async def test_chat_no_context(client: AsyncClient, override_auth):
     response = await client.post("/chat/", json={"question": "Hello"})
     assert response.status_code == 200
     data = response.json()
-    assert "Please upload a PDF" in data["answer"]
+    assert "upload one or more files first" in data["answer"]
 
 @pytest.mark.asyncio
 async def test_chat_with_context_offline(client: AsyncClient, override_auth):
-    # Set context
-    global_state.last_uploaded_text = "The functionality of the pipeline UI tool allows users to drag nodes."
+    # Insert a test document for test@example.com
+    await app.database["files"].insert_one({
+        "user_email": "test@example.com",
+        "filename": "pipeline_doc.txt",
+        "text": "The functionality of the pipeline UI tool allows users to drag nodes."
+    })
     
-    # 1. Test Offline Mode (No API Key)
-    # We can patch settings in 'routers.chat'
+    # Test Offline Mode (No API Key)
     with patch("routers.chat.settings.GROQ_API_KEY", ""):
         response = await client.post("/chat/", json={"question": "pipeline UI"})
         assert response.status_code == 200
         data = response.json()
-        # Should fallback to keyword match
         assert "pipeline UI" in data["answer"]
-        assert "Based on the file" in data["answer"]
+        assert "pipeline_doc.txt" in data["answer"]
 
 @pytest.mark.asyncio
 async def test_chat_with_llm(client: AsyncClient):

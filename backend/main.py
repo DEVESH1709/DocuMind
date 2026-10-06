@@ -1,5 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from routers import auth, files, chat
 from motor.motor_asyncio import AsyncIOMotorClient
 from utils import Settings
@@ -14,7 +15,7 @@ async def lifespan(app: FastAPI):
 
     app.mongodb_client = AsyncIOMotorClient(settings.MONGO_URI)
     app.database = app.mongodb_client[settings.MONGO_DB]
-    print(f" Connected to MongoDB at {settings.MONGO_URI}")
+    print(f" Connected to MongoDB at {settings.MONGO_URI} (DB: {settings.MONGO_DB})")
 
     try:
         redis_url = settings.REDIS_URL 
@@ -42,6 +43,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origin_regex=r"https?://.*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -50,6 +52,15 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(files.router, prefix="/files", tags=["files"])
 app.include_router(chat.router, prefix="/chat", tags=["chat"])
+
+UPLOAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "uploads")
+
+@app.get("/media/{filename}")
+async def stream_media(filename: str):
+    file_path = os.path.join(UPLOAD_DIR, filename)
+    if os.path.exists(file_path):
+        return FileResponse(file_path)
+    raise HTTPException(status_code=404, detail="Media file not found")
 
 @app.get("/")
 def read_root():

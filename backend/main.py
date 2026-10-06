@@ -6,7 +6,6 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from utils import Settings
 from contextlib import asynccontextmanager
 import redis.asyncio as redis
-from fastapi_limiter import FastAPILimiter
 import os
 settings = Settings()
 

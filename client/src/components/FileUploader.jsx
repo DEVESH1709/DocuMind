@@ -260,18 +260,18 @@ function FileUploader({ token, onUploadSuccess }) {
 
                     {/* Action Buttons */}
                     {!uploading && (
-                        <div className="flex items-center justify-end gap-3 pt-2">
+                        <div className="flex flex-wrap items-center justify-end gap-2 sm:gap-3 pt-2">
                             <button
                                 type="button"
                                 onClick={() => setStagedFiles([])}
-                                className="px-4 py-2 rounded-xl text-sm font-semibold text-[#8899bb] hover:text-[#f0f4ff] hover:bg-white/10 transition-colors cursor-pointer"
+                                className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-semibold text-[#8899bb] hover:text-[#f0f4ff] hover:bg-white/10 transition-colors cursor-pointer"
                             >
                                 Clear All
                             </button>
                             <button
                                 type="button"
                                 onClick={handleUpload}
-                                className="px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all cursor-pointer flex items-center gap-2 border border-blue-500/50 active:scale-95 shadow-[0_0_15px_rgba(37,99,235,0.3)]"
+                                className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white transition-all cursor-pointer flex items-center gap-1.5 sm:gap-2 border border-blue-500/50 active:scale-95 shadow-[0_0_15px_rgba(37,99,235,0.3)]"
                                 style={{ background: 'linear-gradient(135deg, #2563eb, #4f46e5)' }}
                             >
                                 <Sparkles size={14} className="text-blue-200" />

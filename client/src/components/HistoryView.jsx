@@ -107,90 +107,90 @@ function HistoryView({ files = [], onBackToWorkspace, onSelectMedia, onTimestamp
     );
 
     return (
-        <div className="h-full flex flex-col space-y-6 max-w-[1400px] mx-auto pb-16 animate-in fade-in duration-300">
+        <div className="h-full flex flex-col space-y-4 sm:space-y-6 max-w-[1400px] mx-auto pb-16 animate-in fade-in duration-300">
             {/* Top Bar */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-3xl border border-blue-900/40 shadow-sm" style={{ background: '#0f1624' }}>
-                <div className="flex items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 sm:gap-4 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-blue-900/40 shadow-sm" style={{ background: '#0f1624' }}>
+                <div className="flex items-center gap-3 sm:gap-4 min-w-0">
                     <button 
                         onClick={onBackToWorkspace}
-                        className="p-2.5 rounded-2xl text-[#8899bb] hover:text-[#f0f4ff] hover:bg-white/10 transition-colors cursor-pointer border border-blue-900/30 shadow-sm"
+                        className="p-2 sm:p-2.5 rounded-xl sm:rounded-2xl text-[#8899bb] hover:text-[#f0f4ff] hover:bg-white/10 transition-colors cursor-pointer border border-blue-900/30 shadow-sm shrink-0"
                         style={{ background: 'rgba(22,31,51,0.6)' }}
                         title="Back to Workspace"
                     >
-                        <ArrowLeft size={18} />
+                        <ArrowLeft size={16} />
                     </button>
-                    <div>
+                    <div className="min-w-0">
                         <div className="flex items-center gap-2">
-                            <History size={18} className="text-blue-500" />
-                            <h2 className="text-xl sm:text-2xl font-black text-[#f0f4ff] tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>History & Activity Log</h2>
+                            <History size={16} className="text-blue-500 shrink-0" />
+                            <h2 className="text-base sm:text-2xl font-black text-[#f0f4ff] tracking-tight truncate" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>History & Activity Log</h2>
                         </div>
-                        <p className="text-xs text-[#8899bb] mt-0.5">Review all indexed documents and past chatbot Q&A interactions.</p>
+                        <p className="text-[11px] sm:text-xs text-[#8899bb] mt-0.5 truncate">Review all indexed documents and past chatbot Q&A interactions.</p>
                     </div>
                 </div>
 
-                <div className="flex items-center gap-2.5">
-                    <div className="relative">
-                        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8899bb]" />
+                <div className="flex items-center gap-2 sm:gap-2.5 w-full sm:w-auto">
+                    <div className="relative flex-1 sm:flex-initial">
+                        <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8899bb]" />
                         <input 
                             type="text"
                             placeholder="Filter history..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="border-2 border-blue-900/40 rounded-xl pl-8 pr-3 py-1.5 text-xs sm:text-[13px] text-[#f0f4ff] placeholder:text-[#8899bb]/50 focus:outline-none focus:border-blue-500/70 focus:shadow-[0_0_12px_rgba(37,99,235,0.25)] transition-all w-44 sm:w-60"
+                            className="border-2 border-blue-900/40 rounded-xl pl-8 pr-3 py-1.5 text-xs sm:text-[13px] text-[#f0f4ff] placeholder:text-[#8899bb]/50 focus:outline-none focus:border-blue-500/70 focus:shadow-[0_0_12px_rgba(37,99,235,0.25)] transition-all w-full sm:w-56"
                             style={{ background: '#050810', boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)' }}
                         />
                     </div>
                     {chatLogs.length > 0 && (
                         <button 
                             onClick={() => setShowClearModal(true)}
-                            className="p-2 rounded-xl text-[#8899bb] hover:text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer border border-blue-900/30"
+                            className="p-2 rounded-xl text-[#8899bb] hover:text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer border border-blue-900/30 shrink-0"
                             style={{ background: 'rgba(22,31,51,0.6)' }}
                             title="Clear Chat Logs"
                         >
-                            <Trash2 size={15} />
+                            <Trash2 size={14} />
                         </button>
                     )}
                 </div>
             </div>
 
             {/* Quick Metrics */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                <div className="p-4 sm:p-5 rounded-2xl border-shining-dark-blue flex items-center gap-3.5" style={{ background: '#0f1624' }}>
-                    <div className="p-2.5 rounded-xl border border-blue-500/40 shadow-[0_0_15px_rgba(37,99,235,0.25)] text-blue-400" style={{ background: 'rgba(37,99,235,0.15)' }}>
-                        <FileText size={20} />
+            <div className="grid grid-cols-3 gap-2 sm:gap-3.5">
+                <div className="p-3 sm:p-5 rounded-2xl border-shining-dark-blue flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-3.5 text-center sm:text-left" style={{ background: '#0f1624' }}>
+                    <div className="p-1.5 sm:p-2.5 rounded-xl border border-blue-500/40 shadow-[0_0_15px_rgba(37,99,235,0.25)] text-blue-400 shrink-0" style={{ background: 'rgba(37,99,235,0.15)' }}>
+                        <FileText size={16} />
                     </div>
-                    <div>
-                        <span className="text-xl sm:text-2xl font-black text-[#f0f4ff]">{files.length}</span>
-                        <p className="text-[11px] font-bold uppercase tracking-wider text-[#8899bb]">Indexed Files</p>
+                    <div className="min-w-0">
+                        <span className="text-base sm:text-2xl font-black text-[#f0f4ff] block leading-tight">{files.length}</span>
+                        <p className="text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8899bb] truncate">Indexed Files</p>
                     </div>
                 </div>
-                <div className="p-4 sm:p-5 rounded-2xl border-shining-dark-blue flex items-center gap-3.5" style={{ background: '#0f1624' }}>
-                    <div className="p-2.5 rounded-xl border border-indigo-500/40 shadow-[0_0_15px_rgba(99,102,241,0.25)] text-indigo-400" style={{ background: 'rgba(99,102,241,0.15)' }}>
-                        <Video size={20} />
+                <div className="p-3 sm:p-5 rounded-2xl border-shining-dark-blue flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-3.5 text-center sm:text-left" style={{ background: '#0f1624' }}>
+                    <div className="p-1.5 sm:p-2.5 rounded-xl border border-indigo-500/40 shadow-[0_0_15px_rgba(99,102,241,0.25)] text-indigo-400 shrink-0" style={{ background: 'rgba(99,102,241,0.15)' }}>
+                        <Video size={16} />
                     </div>
-                    <div>
-                        <span className="text-xl sm:text-2xl font-black text-[#f0f4ff]">
+                    <div className="min-w-0">
+                        <span className="text-base sm:text-2xl font-black text-[#f0f4ff] block leading-tight">
                             {files.filter(f => f.type === 'audio' || f.type === 'video' || (f.filename && /\.(mp4|mp3|wav)$/i.test(f.filename))).length}
                         </span>
-                        <p className="text-[11px] font-bold uppercase tracking-wider text-[#8899bb]">Transcribed Media</p>
+                        <p className="text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8899bb] truncate">Media Files</p>
                     </div>
                 </div>
-                <div className="p-4 sm:p-5 rounded-2xl border-shining-dark-blue flex items-center gap-3.5" style={{ background: '#0f1624' }}>
-                    <div className="p-2.5 rounded-xl border border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.25)] text-emerald-400" style={{ background: 'rgba(16,185,129,0.15)' }}>
-                        <MessageSquare size={20} />
+                <div className="p-3 sm:p-5 rounded-2xl border-shining-dark-blue flex flex-col sm:flex-row items-center sm:items-center gap-1.5 sm:gap-3.5 text-center sm:text-left" style={{ background: '#0f1624' }}>
+                    <div className="p-1.5 sm:p-2.5 rounded-xl border border-emerald-500/40 shadow-[0_0_15px_rgba(16,185,129,0.25)] text-emerald-400 shrink-0" style={{ background: 'rgba(16,185,129,0.15)' }}>
+                        <MessageSquare size={16} />
                     </div>
-                    <div>
-                        <span className="text-xl sm:text-2xl font-black text-[#f0f4ff]">{chatLogs.length}</span>
-                        <p className="text-[11px] font-bold uppercase tracking-wider text-[#8899bb]">Q&A Queries</p>
+                    <div className="min-w-0">
+                        <span className="text-base sm:text-2xl font-black text-[#f0f4ff] block leading-tight">{chatLogs.length}</span>
+                        <p className="text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8899bb] truncate">Q&A Queries</p>
                     </div>
                 </div>
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex gap-2">
+            <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar pb-1">
                 <button 
                     onClick={() => setActiveTab('all')}
-                    className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer ${
+                    className={`px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                         activeTab === 'all' 
                             ? 'text-white border border-blue-500/50' 
                             : 'text-[#8899bb] hover:text-[#f0f4ff] hover:border-blue-600/50 border-shining-dark-blue-subtle'
@@ -201,7 +201,7 @@ function HistoryView({ files = [], onBackToWorkspace, onSelectMedia, onTimestamp
                 </button>
                 <button 
                     onClick={() => setActiveTab('documents')}
-                    className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer ${
+                    className={`px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                         activeTab === 'documents' 
                             ? 'text-white border border-blue-500/50' 
                             : 'text-[#8899bb] hover:text-[#f0f4ff] hover:border-blue-600/50 border-shining-dark-blue-subtle'
@@ -212,7 +212,7 @@ function HistoryView({ files = [], onBackToWorkspace, onSelectMedia, onTimestamp
                 </button>
                 <button 
                     onClick={() => setActiveTab('chat')}
-                    className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer ${
+                    className={`px-3 sm:px-3.5 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                         activeTab === 'chat' 
                             ? 'text-white border border-blue-500/50' 
                             : 'text-[#8899bb] hover:text-[#f0f4ff] hover:border-blue-600/50 border-shining-dark-blue-subtle'
@@ -245,7 +245,7 @@ function HistoryView({ files = [], onBackToWorkspace, onSelectMedia, onTimestamp
                                                 {getIcon(file.type)}
                                             </div>
                                             <div>
-                                                <h4 className="text-xs sm:text-sm font-bold text-[#f0f4ff] truncate max-w-xs">{file.filename}</h4>
+                                                <h4 className="text-xs sm:text-sm font-bold text-[#f0f4ff] truncate max-w-[160px] sm:max-w-xs" title={file.filename}>{file.filename}</h4>
                                                 <div className="flex items-center gap-1.5 text-[11px] text-[#8899bb] mt-0.5">
                                                     <Calendar size={11} />
                                                     <span>{formatDate(file.uploaded_at)}</span>
@@ -290,7 +290,7 @@ function HistoryView({ files = [], onBackToWorkspace, onSelectMedia, onTimestamp
                             filteredChats.map((chat, idx) => (
                                 <div key={idx} className="p-4 sm:p-5 rounded-3xl border-shining-dark-blue shadow-sm hover:border-blue-500/70 hover:shadow-[0_0_20px_rgba(37,99,235,0.15)] transition-all space-y-2.5" style={{ background: '#0f1624' }}>
                                     <div className="flex items-center justify-between gap-2">
-                                        <span className="text-xs font-bold text-blue-300 border border-blue-500/40 px-2 py-0.5 rounded-lg" style={{ background: 'rgba(37,99,235,0.15)' }}>
+                                        <span className="text-xs font-bold text-blue-300 border border-blue-500/40 px-2 py-0.5 rounded-lg line-clamp-1 max-w-[75%]" title={chat.question} style={{ background: 'rgba(37,99,235,0.15)' }}>
                                             Q: {chat.question}
                                         </span>
                                         <div className="flex items-center gap-1 text-[11px] text-[#8899bb]">

@@ -26,23 +26,40 @@ class Token(BaseModel):
 @router.post("/register", response_model=Token, status_code=status.HTTP_201_CREATED)
 async def register(user: UserIn, request: Request):
     db = request.app.database
+    email = user.email.strip().lower()
+
+    # Check if user already exists
+    existing = await db["users"].find_one({"email": email})
+    if existing:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="An account with this email already exists. Please sign in instead."
+        )
+
     hashed_pw = get_password_hash(user.password)
     try:
-        await db["users"].insert_one({"email": user.email, "password": hashed_pw})
+        await db["users"].insert_one({
+            "email": email,
+            "password": hashed_pw,
+            "created_at": datetime.utcnow()
+        })
     except DuplicateKeyError:
-        pass 
-        
-        existing = await db["users"].find_one({"email": user.email})
-        if existing:
-             raise HTTPException(status_code=400, detail="User already exists")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="An account with this email already exists. Please sign in instead."
+        )
 
-    access_token = create_access_token(data={"sub": user.email})
+    access_token = create_access_token(data={"sub": email})
     return {"access_token": access_token, "token_type": "bearer"}
 
 @router.post("/token", response_model=Token)
 async def login_for_access_token(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
     db = request.app.database
-    user = await db["users"].find_one({"email": form_data.username})
+    email = form_data.username.strip().lower()
+    user = await db["users"].find_one({"email": email})
+    if not user:
+        # Fallback to exact match for legacy accounts that had uppercase letters
+        user = await db["users"].find_one({"email": form_data.username})
     if not user or not verify_password(form_data.password, user["password"]):
         raise HTTPException(status_code=401, detail="Incorrect username or password")
     access_token = create_access_token(data={"sub": user["email"]})

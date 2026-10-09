@@ -22,9 +22,10 @@ function Auth({ onLoginSuccess, initialIsLogin = true, onClose }) {
         setError('');
 
         try {
+            const cleanEmail = formData.email.trim();
             if (isLogin) {
                 const params = new URLSearchParams();
-                params.append('username', formData.email);
+                params.append('username', cleanEmail);
                 params.append('password', formData.password);
 
                 const response = await axios.post(`${API_BASE_URL}/auth/token`, params, {
@@ -35,7 +36,7 @@ function Auth({ onLoginSuccess, initialIsLogin = true, onClose }) {
                 onLoginSuccess(`Bearer ${response.data.access_token}`);
             } else {
                 await axios.post(`${API_BASE_URL}/auth/register`, {
-                    email: formData.email,
+                    email: cleanEmail,
                     password: formData.password
                 });
 
@@ -121,12 +122,21 @@ function Auth({ onLoginSuccess, initialIsLogin = true, onClose }) {
                 </div>
 
                 {error && (
-                    <div className={`p-3 border-2 rounded-2xl text-xs font-semibold text-center animate-in fade-in slide-in-from-top-2 ${error.includes("successful")
-                        ? "border-emerald-500/30 text-emerald-400"
-                        : "border-red-500/30 text-red-400"
-                        }`}
-                        style={error.includes("successful") ? { background: 'rgba(52,211,153,0.1)' } : { background: 'rgba(239,68,68,0.1)' }}>
-                        {error}
+                    <div className="p-3 border-2 rounded-2xl text-xs font-semibold text-center animate-in fade-in slide-in-from-top-2 border-rose-500/30 text-rose-300"
+                        style={{ background: 'rgba(244,63,94,0.1)' }}>
+                        <p>{error}</p>
+                        {!isLogin && error.toLowerCase().includes("already exists") && (
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setIsLogin(true);
+                                    setError("");
+                                }}
+                                className="mt-1.5 inline-block text-blue-400 hover:text-blue-300 underline font-bold cursor-pointer"
+                            >
+                                Click here to Sign In instead
+                            </button>
+                        )}
                     </div>
                 )}
 

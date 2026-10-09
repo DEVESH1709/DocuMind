@@ -17,6 +17,12 @@ async def lifespan(app: FastAPI):
     print(f" Connected to MongoDB at {settings.MONGO_URI} (DB: {settings.MONGO_DB})")
 
     try:
+        await app.database["users"].create_index("email", unique=True)
+        print(" Created unique index on users.email")
+    except Exception as e:
+        print(f"Index creation note: {e}")
+
+    try:
         redis_url = settings.REDIS_URL 
         r = redis.from_url(redis_url, encoding="utf-8", decode_responses=True)
         # We won't ping or init limiter here to avoid startup hangs

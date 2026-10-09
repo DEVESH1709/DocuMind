@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Send, Loader2, Play, Bot, User, Info, RotateCcw, Copy, Check, Sparkles, MessageSquare } from 'lucide-react';
+import { Send, Loader2, Play, Bot, User, Info, RotateCcw, Copy, Check, Sparkles, MessageSquare, PanelLeft, PanelLeftOpen, PanelLeftClose } from 'lucide-react';
 import ConfirmModal from './ConfirmModal';
 import { API_BASE_URL } from '../config';
 
@@ -195,7 +195,14 @@ const SUGGESTED_PROMPTS = [
     "What are the main topics discussed in the media?"
 ];
 
-function Chatbot({ token, onTimestampClick, files = [] }) {
+function Chatbot({ 
+    token, 
+    onTimestampClick, 
+    files = [], 
+    onOpenSidebar, 
+    desktopSidebarOpen, 
+    onToggleDesktopSidebar 
+}) {
     const [question, setQuestion] = useState('');
     const [messages, setMessages] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -258,24 +265,63 @@ function Chatbot({ token, onTimestampClick, files = [] }) {
     };
 
     return (
-        <div className="flex flex-col h-[calc(100vh-170px)] min-h-[500px] rounded-[2rem] border-shining-dark-blue-strong overflow-hidden relative group" style={{ background: '#0f1624' }}>
+        <div className="flex flex-col h-full min-h-0 sm:min-h-[500px] rounded-3xl sm:rounded-[2rem] border-shining-dark-blue-strong overflow-hidden relative group" style={{ background: '#0f1624' }}>
             
             <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(37,99,235,0.05) 0%, transparent 100%)' }} />
 
             {/* Header */}
-            <div className="p-3.5 sm:p-4 flex items-center justify-between relative z-10 border-b border-blue-900/40" style={{ background: 'rgba(8,12,20,0.6)' }}>
-                <div className="flex items-center gap-2.5">
-                    <div className="p-1.5 rounded-xl border border-blue-500/30 shadow-inner" style={{ background: 'rgba(37,99,235,0.15)' }}>
-                        <Bot size={20} className="text-blue-400" />
+            <div className="p-3 sm:p-4 flex items-center justify-between relative z-10 border-b border-blue-900/40" style={{ background: 'rgba(8,12,20,0.6)' }}>
+                <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                    {/* Desktop Toggle to Open Sidebar when collapsed */}
+                    {!desktopSidebarOpen && onToggleDesktopSidebar && (
+                        <button 
+                            onClick={onToggleDesktopSidebar}
+                            className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-blue-500/40 hover:border-blue-500 text-blue-300 hover:text-white transition-all cursor-pointer shadow-sm active:scale-95 shrink-0"
+                            style={{ background: 'rgba(37,99,235,0.15)' }}
+                            title="Show Knowledge Base Sidebar"
+                        >
+                            <PanelLeftOpen size={16} />
+                            <span className="text-xs font-bold hidden xl:inline">Knowledge Base ({files.length})</span>
+                        </button>
+                    )}
+
+                    {/* Mobile Toggle Button */}
+                    {onOpenSidebar && (
+                        <button 
+                            onClick={onOpenSidebar}
+                            className="lg:hidden p-1.5 rounded-xl border border-blue-500/40 hover:border-blue-500 text-blue-300 hover:text-white transition-all cursor-pointer shadow-sm shrink-0"
+                            style={{ background: 'rgba(37,99,235,0.15)' }}
+                            title="Open Knowledge Base Sidebar"
+                        >
+                            <PanelLeft size={16} />
+                        </button>
+                    )}
+
+                    <div className="p-1.5 rounded-xl border border-blue-500/30 shadow-inner shrink-0" style={{ background: 'rgba(37,99,235,0.15)' }}>
+                        <Bot size={18} className="text-blue-400" />
                     </div>
-                    <div>
-                        <h3 className="text-sm sm:text-base font-bold text-[#f0f4ff] tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>AI Analyst</h3>
-                        <p className="text-[10px] sm:text-[11px] text-blue-400/80 flex items-center gap-1 font-bold uppercase tracking-wider">
-                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" /> Live Now
+                    <div className="min-w-0">
+                        <h3 className="text-sm sm:text-base font-bold text-[#f0f4ff] tracking-tight truncate" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>AI Analyst</h3>
+                        <p className="text-[10px] sm:text-[11px] text-blue-400/80 flex items-center gap-1 font-bold uppercase tracking-wider truncate">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" /> Live Now
                         </p>
                     </div>
                 </div>
-                <div className="flex items-center gap-2">
+
+                <div className="flex items-center gap-2 shrink-0">
+                    {/* Desktop Toggle to Collapse when sidebar is open */}
+                    {desktopSidebarOpen && onToggleDesktopSidebar && (
+                        <button 
+                            onClick={onToggleDesktopSidebar}
+                            className="hidden lg:flex items-center gap-1 px-2.5 py-1 rounded-xl border border-blue-900/40 hover:border-blue-700/60 text-[#8899bb] hover:text-[#f0f4ff] transition-all cursor-pointer text-xs font-medium shrink-0"
+                            style={{ background: 'rgba(22,31,51,0.6)' }}
+                            title="Collapse Knowledge Base to expand chat"
+                        >
+                            <PanelLeftClose size={13} />
+                            <span className="hidden xl:inline text-[11px]">Hide Panel</span>
+                        </button>
+                    )}
+
                     {messages.length > 0 && (
                         <button 
                             onClick={() => setShowResetModal(true)}

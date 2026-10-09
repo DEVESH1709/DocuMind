@@ -52,10 +52,10 @@ export function ToastProvider({ children }) {
 
     const getBorderColor = (type) => {
         switch (type) {
-            case 'success': return 'border-emerald-200 bg-white/95 shadow-emerald-500/10';
-            case 'error': return 'border-red-200 bg-white/95 shadow-red-500/10';
-            case 'warning': return 'border-amber-200 bg-white/95 shadow-amber-500/10';
-            default: return 'border-blue-200 bg-white/95 shadow-blue-500/10';
+            case 'success': return 'border-emerald-500/40 shadow-[0_0_20px_rgba(16,185,129,0.2)] bg-[#0d1a18]/95';
+            case 'error': return 'border-red-500/40 shadow-[0_0_20px_rgba(239,68,68,0.2)] bg-[#1c0f14]/95';
+            case 'warning': return 'border-amber-500/40 shadow-[0_0_20px_rgba(245,158,11,0.2)] bg-[#1a160d]/95';
+            default: return 'border-blue-500/40 shadow-[0_0_20px_rgba(37,99,235,0.2)] bg-[#0f1624]/95';
         }
     };
 
@@ -63,27 +63,29 @@ export function ToastProvider({ children }) {
         <ToastContext.Provider value={{ addToast, success, error, info, warning }}>
             {children}
             
-            {/* Toast Container */}
-            <div className="fixed bottom-6 right-6 z-[9999] flex flex-col gap-2.5 max-w-sm w-full pointer-events-none px-4 sm:px-0">
+            {/* Toast Container - Positioned at Top Right so it never covers chat input */}
+            <div className="fixed top-4 sm:top-5 right-3 sm:right-6 z-[9999] flex flex-col gap-2.5 max-w-[calc(100vw-24px)] sm:max-w-sm w-full pointer-events-none">
                 {toasts.map((toast) => (
                     <div
                         key={toast.id}
-                        className={`pointer-events-auto flex items-start gap-3 p-4 rounded-2xl border backdrop-blur-md shadow-xl transition-all duration-300 animate-in slide-in-from-bottom-5 fade-in ${getBorderColor(toast.type)}`}
+                        className={`pointer-events-auto flex items-start gap-3 p-3.5 sm:p-4 rounded-2xl border backdrop-blur-xl shadow-2xl transition-all duration-300 animate-in slide-in-from-top-3 fade-in ${getBorderColor(toast.type)}`}
+                        style={{ backdropFilter: 'blur(16px)' }}
                     >
                         {getIcon(toast.type)}
                         <div className="flex-1 min-w-0">
                             {toast.title && (
-                                <h4 className="text-sm font-bold text-slate-900 tracking-tight leading-none mb-1">
+                                <h4 className="text-xs sm:text-sm font-bold text-[#f0f4ff] tracking-tight leading-none mb-1">
                                     {toast.title}
                                 </h4>
                             )}
-                            <p className="text-sm text-slate-600 leading-relaxed font-medium">
+                            <p className="text-xs sm:text-[13px] text-[#c8d8f0] leading-relaxed font-normal break-words">
                                 {toast.message}
                             </p>
                         </div>
                         <button
                             onClick={() => removeToast(toast.id)}
-                            className="text-slate-400 hover:text-slate-600 transition-colors p-1 -mr-1 -mt-1 rounded-lg hover:bg-slate-100 cursor-pointer"
+                            className="text-[#8899bb] hover:text-[#f0f4ff] transition-colors p-1 -mr-1 -mt-1 rounded-lg hover:bg-white/10 cursor-pointer shrink-0"
+                            title="Dismiss notification"
                         >
                             <X size={14} />
                         </button>

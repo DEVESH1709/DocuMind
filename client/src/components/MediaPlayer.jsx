@@ -21,7 +21,7 @@ function MediaPlayer({ url, seekCommand }) {
     if (!url) return null;
 
     return (
-        <div className="w-full bg-slate-950 rounded-2xl overflow-hidden shadow-lg border border-slate-800">
+        <div className="w-full bg-slate-950 rounded-2xl overflow-hidden shadow-2xl border-shining-dark-blue-neon">
             <video
                 ref={videoRef}
                 key={url} 
@@ -39,3 +39,6 @@ function MediaPlayer({ url, seekCommand }) {
 }
 
 export default MediaPlayer;
+
+
+

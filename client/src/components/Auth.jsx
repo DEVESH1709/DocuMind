@@ -1,12 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
-import { Mail, Lock, ArrowRight, Loader2 } from "lucide-react";
+import { Mail, Lock, ArrowRight, Loader2, X } from "lucide-react";
 import { useToast } from "../context/ToastContext";
 import { API_BASE_URL } from "../config";
 
-function Auth({ onLoginSuccess }) {
+function Auth({ onLoginSuccess, initialIsLogin = true, onClose }) {
     const { success, error: toastError } = useToast();
-    const [isLogin, setIsLogin] = useState(true);
+    const [isLogin, setIsLogin] = useState(initialIsLogin);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({ email: "", password: "" });
     const [error, setError] = useState("");
@@ -55,30 +55,47 @@ function Auth({ onLoginSuccess }) {
     };
 
     return (
-        <div className="max-w-md w-full mx-auto bg-white/80 backdrop-blur-xl p-7 sm:p-8 rounded-3xl border border-blue-100 shadow-2xl shadow-blue-600/5 relative overflow-hidden animate-in fade-in zoom-in duration-500">
+        <div className="max-w-md w-full mx-auto p-7 sm:p-8 rounded-3xl border-shining-dark-blue-strong relative overflow-hidden animate-in fade-in zoom-in duration-500" style={{ background: 'rgba(15,22,36,0.95)', backdropFilter: 'blur(20px)' }}>
+            {onClose && (
+                <button
+                    type="button"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        onClose();
+                    }}
+                    className="absolute top-4 right-4 sm:top-5 sm:right-5 p-2 sm:p-2.5 rounded-2xl text-[#8899bb] hover:text-white hover:bg-blue-600/20 hover:border-blue-500/50 active:scale-90 transition-all cursor-pointer z-50 border border-blue-900/40 shadow-lg"
+                    style={{ background: 'rgba(22,31,51,0.9)' }}
+                    aria-label="Close auth dialog"
+                    title="Close"
+                >
+                    <X size={18} />
+                </button>
+            )}
             {/* Subtle decorative elements */}
-            <div className="absolute -top-10 -right-10 w-32 h-32 bg-blue-50 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-indigo-50 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%)', filter: 'blur(30px)' }} />
+            <div className="absolute -bottom-10 -left-10 w-32 h-32 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%)', filter: 'blur(30px)' }} />
 
-            <div className="text-center mb-6">
-                <h2 className="text-2xl sm:text-3xl font-black text-slate-900 mb-2 tracking-tight">
+            <div className="text-center mb-6 relative z-10">
+                <h2 className="text-xl sm:text-2xl font-black text-[#f0f4ff] mb-1.5 tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                     {isLogin ? 'Welcome Back' : 'Create Account'}
                 </h2>
-                <p className="text-slate-500 text-sm font-medium">
+                <p className="text-[#8899bb] text-xs sm:text-sm font-medium">
                     {isLogin ? 'Enter your credentials to access your workspace.' : 'Sign up to start analyzing your documents.'}
                 </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-1.5">
-                    <label className="block text-slate-700 text-xs font-bold uppercase tracking-widest ml-1">Email Address</label>
+            <form onSubmit={handleSubmit} className="space-y-3.5 relative z-10">
+                <div className="space-y-1">
+                    <label className="block text-[#f0f4ff] text-xs font-bold uppercase tracking-widest ml-1">Email Address</label>
                     <div className="relative group">
-                        <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
+                        <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8899bb] group-focus-within:text-blue-500 transition-colors" />
                         <input
                             type="email"
                             name="email"
                             required
-                            className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-3 pl-11 pr-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-all placeholder:text-slate-400"
+                            className="w-full border-2 border-blue-900/40 rounded-2xl py-2.5 pl-10 pr-3.5 text-xs sm:text-sm text-[#f0f4ff] focus:outline-none focus:border-blue-500/70 focus:shadow-[0_0_15px_rgba(37,99,235,0.25)] transition-all placeholder:text-[#8899bb]/50"
+                            style={{ background: '#050810', boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)' }}
                             placeholder="you@example.com"
                             value={formData.email}
                             onChange={handleChange}
@@ -86,15 +103,16 @@ function Auth({ onLoginSuccess }) {
                     </div>
                 </div>
 
-                <div className="space-y-1.5">
-                    <label className="block text-slate-700 text-xs font-bold uppercase tracking-widest ml-1">Password</label>
+                <div className="space-y-1">
+                    <label className="block text-[#f0f4ff] text-xs font-bold uppercase tracking-widest ml-1">Password</label>
                     <div className="relative group">
-                        <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
+                        <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#8899bb] group-focus-within:text-blue-500 transition-colors" />
                         <input
                             type="password"
                             name="password"
                             required
-                            className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl py-3 pl-11 pr-4 text-sm text-slate-900 focus:outline-none focus:border-blue-500 focus:bg-white transition-all placeholder:text-slate-400"
+                            className="w-full border-2 border-blue-900/40 rounded-2xl py-2.5 pl-10 pr-3.5 text-xs sm:text-sm text-[#f0f4ff] focus:outline-none focus:border-blue-500/70 focus:shadow-[0_0_15px_rgba(37,99,235,0.25)] transition-all placeholder:text-[#8899bb]/50"
+                            style={{ background: '#050810', boxShadow: 'inset 0 0 10px rgba(0,0,0,0.5)' }}
                             placeholder="••••••••"
                             value={formData.password}
                             onChange={handleChange}
@@ -103,10 +121,11 @@ function Auth({ onLoginSuccess }) {
                 </div>
 
                 {error && (
-                    <div className={`p-3.5 border-2 rounded-2xl text-sm font-semibold text-center animate-in fade-in slide-in-from-top-2 ${error.includes("successful")
-                        ? "bg-green-50 border-green-100 text-green-600"
-                        : "bg-red-50 border-red-100 text-red-600"
-                        }`}>
+                    <div className={`p-3 border-2 rounded-2xl text-xs font-semibold text-center animate-in fade-in slide-in-from-top-2 ${error.includes("successful")
+                        ? "border-emerald-500/30 text-emerald-400"
+                        : "border-red-500/30 text-red-400"
+                        }`}
+                        style={error.includes("successful") ? { background: 'rgba(52,211,153,0.1)' } : { background: 'rgba(239,68,68,0.1)' }}>
                         {error}
                     </div>
                 )}
@@ -114,18 +133,19 @@ function Auth({ onLoginSuccess }) {
                 <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-2xl font-bold shadow-lg shadow-blue-600/20 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer mt-2"
+                    className="w-full py-3 text-white rounded-2xl text-xs sm:text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer mt-2 border border-blue-500/50"
+                    style={{ background: 'linear-gradient(135deg, #2563eb, #4f46e5)', boxShadow: '0 0 20px rgba(37,99,235,0.35)' }}
                 >
-                    {loading ? <Loader2 size={20} className="animate-spin" /> : (isLogin ? 'Sign In' : 'Get Started')}
-                    {!loading && <ArrowRight size={18} />}
+                    {loading ? <Loader2 size={18} className="animate-spin" /> : (isLogin ? 'Sign In' : 'Get Started')}
+                    {!loading && <ArrowRight size={16} />}
                 </button>
             </form>
 
-            <div className="mt-6 text-center text-sm">
-                <span className="text-slate-500 font-medium">{isLogin ? "Don't have an account?" : "Already have an account?"}</span>
+            <div className="mt-5 text-center text-xs relative z-10">
+                <span className="text-[#8899bb] font-medium">{isLogin ? "Don't have an account?" : "Already have an account?"}</span>
                 <button
                     onClick={() => setIsLogin(!isLogin)}
-                    className="ml-2 text-blue-600 hover:text-blue-700 font-bold transition-colors cursor-pointer"
+                    className="ml-2 text-blue-400 hover:text-blue-300 font-bold transition-colors cursor-pointer"
                 >
                     {isLogin ? 'Sign Up Free' : 'Sign In'}
                 </button>
@@ -135,4 +155,7 @@ function Auth({ onLoginSuccess }) {
 }
 
 export default Auth;
+
+
+
 

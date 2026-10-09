@@ -73,11 +73,11 @@ export function ToastProvider({ children }) {
                         {getIcon(toast.type)}
                         <div className="flex-1 min-w-0">
                             {toast.title && (
-                                <h4 className="text-xs font-bold text-slate-900 tracking-tight leading-none mb-1">
+                                <h4 className="text-sm font-bold text-slate-900 tracking-tight leading-none mb-1">
                                     {toast.title}
                                 </h4>
                             )}
-                            <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                            <p className="text-sm text-slate-600 leading-relaxed font-medium">
                                 {toast.message}
                             </p>
                         </div>
@@ -101,3 +101,5 @@ export function useToast() {
     }
     return context;
 }
+
+

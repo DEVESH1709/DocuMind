@@ -31,21 +31,21 @@ function DocumentLibrary({ files, loading, onDelete, onSelectMedia, activeMediaI
 
     if (loading && files.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center p-20 bg-white rounded-[2rem] border border-blue-50 shadow-xl shadow-blue-900/5">
-                <Loader2 size={40} className="text-blue-600 animate-spin mb-4" />
-                <p className="text-slate-500 font-medium">Preparing your library...</p>
+            <div className="flex flex-col items-center justify-center p-20 rounded-[2rem] border border-blue-900/30 shadow-xl" style={{ background: '#0f1624' }}>
+                <Loader2 size={40} className="text-blue-500 animate-spin mb-4" />
+                <p className="text-[#8899bb] font-medium">Preparing your library...</p>
             </div>
         );
     }
 
     if (files.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center p-20 bg-white rounded-[2rem] border border-blue-50 shadow-xl shadow-blue-900/5 text-center">
-                <div className="w-20 h-20 rounded-3xl bg-blue-50 flex items-center justify-center mb-6 border border-blue-100">
-                    <FileText size={32} className="text-blue-200" />
+            <div className="flex flex-col items-center justify-center p-20 rounded-[2rem] border border-blue-900/30 shadow-xl text-center" style={{ background: '#0f1624' }}>
+                <div className="w-20 h-20 rounded-3xl flex items-center justify-center mb-6 border border-blue-500/30" style={{ background: 'rgba(37,99,235,0.1)' }}>
+                    <FileText size={32} className="text-blue-400" />
                 </div>
-                <h3 className="text-xl font-bold text-slate-800">Your library is empty</h3>
-                <p className="text-sm text-slate-500 max-w-xs mx-auto mt-2 leading-relaxed">
+                <h3 className="text-xl font-bold text-[#f0f4ff]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Your library is empty</h3>
+                <p className="text-sm text-[#8899bb] max-w-xs mx-auto mt-2 leading-relaxed">
                     Upload documents above to start your AI-powered analysis.
                 </p>
             </div>
@@ -57,28 +57,29 @@ function DocumentLibrary({ files, loading, onDelete, onSelectMedia, activeMediaI
             {/* Header & Controls */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="space-y-1">
-                    <h2 className="text-2xl font-black text-slate-900 tracking-tight">Document Library</h2>
-                    <p className="text-sm text-slate-500">Manage and explore your knowledge base</p>
+                    <h2 className="text-xl sm:text-2xl font-black text-[#f0f4ff] tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Document Library</h2>
+                    <p className="text-xs sm:text-sm text-[#8899bb]">Manage and explore your knowledge base</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2.5">
                     <div className="relative">
-                        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8899bb]" />
                         <input
                             type="text"
                             placeholder="Filter library..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="bg-white border border-slate-200 rounded-xl pl-9 pr-3 py-1.5 text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-blue-500 shadow-sm w-44 sm:w-56"
+                            className="border-2 border-blue-900/50 rounded-xl pl-8 pr-3 py-1.5 text-xs sm:text-[13px] text-[#f0f4ff] placeholder:text-[#8899bb]/50 focus:outline-none focus:border-blue-500/70 focus:shadow-[0_0_12px_rgba(37,99,235,0.25)] shadow-sm w-40 sm:w-52 transition-all"
+                            style={{ background: '#050810' }}
                         />
                     </div>
-                    <div className="px-3 py-1.5 bg-blue-600 text-white text-xs font-bold rounded-xl shadow-md shadow-blue-600/20 whitespace-nowrap">
+                    <div className="px-2.5 py-1 text-white text-xs font-bold rounded-xl shadow-md border border-blue-500/50 whitespace-nowrap" style={{ background: 'linear-gradient(135deg, #2563eb, #4f46e5)', boxShadow: '0 0 12px rgba(37,99,235,0.3)' }}>
                         {files.length} {files.length === 1 ? 'File' : 'Files'}
                     </div>
                 </div>
             </div>
 
             {/* Filter Chips */}
-            <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
                 {[
                     { id: 'all', label: 'All Files', count: files.length },
                     { id: 'pdf', label: 'PDFs', count: files.filter(f => f.type === 'pdf' || f.filename.endsWith('.pdf')).length },
@@ -90,12 +91,13 @@ function DocumentLibrary({ files, loading, onDelete, onSelectMedia, activeMediaI
                         onClick={() => setFilterType(tab.id)}
                         className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 ${
                             filterType === tab.id
-                                ? 'bg-blue-600 text-white shadow-sm shadow-blue-600/20'
-                                : 'bg-white border border-slate-200/80 text-slate-600 hover:bg-slate-50'
+                                ? 'text-white border border-blue-500/50'
+                                : 'text-[#8899bb] hover:text-[#f0f4ff] border border-blue-900/40 hover:border-blue-600/50'
                         }`}
+                        style={filterType === tab.id ? { background: 'linear-gradient(135deg, #2563eb, #4f46e5)', boxShadow: '0 0 15px rgba(37,99,235,0.3)' } : { background: 'rgba(22,31,51,0.6)' }}
                     >
                         <span>{tab.label}</span>
-                        <span className={`px-1.5 py-0.2 rounded-md text-[10px] ${filterType === tab.id ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'}`}>
+                        <span className={`px-1.5 py-0.2 rounded-md text-[10px] ${filterType === tab.id ? 'bg-white/20 text-white' : 'text-[#8899bb]'}`} style={filterType === tab.id ? {} : { background: '#050810' }}>
                             {tab.count}
                         </span>
                     </button>
@@ -105,15 +107,15 @@ function DocumentLibrary({ files, loading, onDelete, onSelectMedia, activeMediaI
             {/* Multi-Document Banner */}
             {files.length > 1 && (
                 <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl blur opacity-20 group-hover:opacity-30 transition duration-500"></div>
-                    <div className="relative flex items-center gap-5 bg-white/90 backdrop-blur-xl border border-blue-100 p-5 rounded-3xl shadow-lg">
-                        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/30 shrink-0">
-                            <Info size={24} className="text-white" />
+                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-500"></div>
+                    <div className="relative flex items-center gap-4 border-shining-dark-blue-strong p-4 sm:p-5 rounded-3xl shadow-xl" style={{ background: 'rgba(8,12,20,0.85)', backdropFilter: 'blur(12px)' }}>
+                        <div className="w-10 h-10 rounded-2xl flex items-center justify-center border border-blue-500/50 shrink-0" style={{ background: 'linear-gradient(135deg, #2563eb, #4f46e5)', boxShadow: '0 0 12px rgba(37,99,235,0.4)' }}>
+                            <Info size={20} className="text-white" />
                         </div>
                         <div>
-                            <h4 className="text-sm sm:text-base font-bold text-slate-900">Multi-Document Analysis Active</h4>
-                            <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                                Our AI is cross-referencing all <span className="font-bold text-blue-600">{files.length} documents</span>. 
+                            <h4 className="text-xs sm:text-sm font-bold text-[#f0f4ff]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Multi-Document Analysis Active</h4>
+                            <p className="text-xs text-[#8899bb] mt-0.5 leading-relaxed">
+                                Our AI is cross-referencing all <span className="font-bold text-blue-400">{files.length} documents</span>. 
                                 Ask the chat to compare, spot differences, or locate common points.
                             </p>
                         </div>
@@ -122,38 +124,40 @@ function DocumentLibrary({ files, loading, onDelete, onSelectMedia, activeMediaI
             )}
             
             {/* Grid of Files */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {filteredFiles.map((file, idx) => (
                     <div 
                         key={file._id || idx} 
-                        className="group relative bg-white hover:bg-blue-50/20 border border-slate-100 hover:border-blue-200 rounded-3xl p-5 sm:p-6 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-blue-900/5"
+                        className="group relative border-shining-dark-blue rounded-3xl p-4 sm:p-5 transition-all duration-300 hover:shadow-[0_0_20px_rgba(37,99,235,0.15)]"
+                        style={{ background: '#0f1624' }}
                     >
                         <button 
                             onClick={() => setFileToDelete(file)}
-                            className="absolute top-4 right-4 p-2 rounded-xl bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer border border-slate-100 shadow-sm"
+                            className="absolute top-4 right-4 p-1.5 rounded-xl text-[#8899bb] hover:text-red-400 opacity-0 group-hover:opacity-100 transition-all duration-200 cursor-pointer border border-blue-900/40 shadow-sm"
+                            style={{ background: 'rgba(22,31,51,0.8)' }}
                             title="Remove document"
                         >
-                            <X size={15} />
+                            <X size={14} />
                         </button>
 
-                        <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 rounded-2xl bg-slate-50 group-hover:bg-white flex items-center justify-center border border-slate-100 group-hover:border-blue-100 group-hover:scale-105 transition-all duration-300 shadow-sm shrink-0">
+                        <div className="flex items-start gap-3.5">
+                            <div className="w-10 h-10 rounded-2xl flex items-center justify-center border border-blue-900/40 group-hover:border-blue-500/60 group-hover:scale-105 transition-all duration-300 shadow-sm shrink-0" style={{ background: 'rgba(8,12,20,0.8)' }}>
                                 {getIcon(file.type)}
                             </div>
                             <div className="flex-1 min-w-0">
-                                <h4 className="text-sm font-bold text-slate-800 truncate pr-8" title={file.filename}>
+                                <h4 className="text-xs sm:text-sm font-bold text-[#f0f4ff] truncate pr-8" title={file.filename}>
                                     {file.filename}
                                 </h4>
-                                <p className="text-xs text-slate-500 mt-1.5 line-clamp-2 leading-relaxed italic">
+                                <p className="text-xs text-[#8899bb]/80 mt-1 line-clamp-2 leading-relaxed italic">
                                     {file.summary || "Deep analysis in progress..."}
                                 </p>
                             </div>
                         </div>
                         
-                        <div className="mt-5 pt-4 border-t border-slate-50 flex items-center justify-between">
-                             <div className="flex items-center gap-2">
-                                 <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
-                                 <span className="text-[10px] uppercase tracking-widest font-black text-slate-400">Indexed & Ready</span>
+                        <div className="mt-4 pt-3.5 border-t border-blue-900/30 flex items-center justify-between">
+                             <div className="flex items-center gap-1.5">
+                                 <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
+                                 <span className="text-[10px] sm:text-[11px] uppercase tracking-widest font-bold text-[#8899bb]">Indexed & Ready</span>
                              </div>
                              <div className="flex items-center gap-2">
                                 {(['audio', 'video'].includes(file.type) || (file.filename && /\.(mp4|mp3|wav|m4a)$/i.test(file.filename))) && (
@@ -162,14 +166,15 @@ function DocumentLibrary({ files, loading, onDelete, onSelectMedia, activeMediaI
                                             e.stopPropagation();
                                             if (onSelectMedia) onSelectMedia(file);
                                         }}
-                                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm active:scale-95 ${
+                                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-sm active:scale-95 ${
                                             (activeMediaId === (file._id || file.id))
-                                                ? 'bg-blue-600 text-white shadow-blue-600/20'
-                                                : 'bg-blue-50 text-blue-700 hover:bg-blue-600 hover:text-white'
+                                                ? 'text-white border border-blue-500/50'
+                                                : 'text-blue-400 hover:text-white border border-blue-600/40'
                                         }`}
+                                        style={(activeMediaId === (file._id || file.id)) ? { background: 'linear-gradient(135deg, #2563eb, #4f46e5)', boxShadow: '0 0 15px rgba(37,99,235,0.4)' } : { background: 'rgba(37,99,235,0.1)' }}
                                         title="Play in Media Player"
                                     >
-                                        <Play size={11} className="fill-current" />
+                                        <Play size={10} className="fill-current" />
                                         {(activeMediaId === (file._id || file.id)) ? 'Playing' : 'Play'}
                                     </button>
                                 )}
@@ -179,9 +184,9 @@ function DocumentLibrary({ files, loading, onDelete, onSelectMedia, activeMediaI
                 ))}
 
                 {filteredFiles.length === 0 && (
-                    <div className="col-span-full py-12 text-center text-slate-400 bg-white rounded-3xl border border-slate-100">
-                        <Search size={24} className="mx-auto mb-2 opacity-40" />
-                        <p className="text-sm font-semibold">No documents match "{searchQuery}"</p>
+                    <div className="col-span-full py-10 text-center text-[#8899bb] rounded-3xl border border-blue-900/30" style={{ background: '#0f1624' }}>
+                        <Search size={20} className="mx-auto mb-2 opacity-40" />
+                        <p className="text-xs sm:text-sm font-semibold">No documents match "{searchQuery}"</p>
                     </div>
                 )}
             </div>
@@ -206,3 +211,6 @@ function DocumentLibrary({ files, loading, onDelete, onSelectMedia, activeMediaI
 }
 
 export default DocumentLibrary;
+
+
+

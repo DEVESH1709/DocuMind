@@ -137,25 +137,26 @@ function FileUploader({ token, onUploadSuccess }) {
     };
 
     return (
-        <div className="bg-white p-6 sm:p-7 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden">
+        <div className="p-5 sm:p-6 rounded-3xl border-shining-dark-blue relative overflow-hidden" style={{ background: '#0f1624' }}>
             {/* Header info */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-3.5">
                 <div>
-                    <h3 className="text-base font-bold text-slate-900 tracking-tight">Upload Knowledge Base</h3>
-                    <p className="text-xs text-slate-500 mt-0.5">Supports PDF documents, audio recordings, and video files (Max {MAX_FILE_SIZE_MB}MB)</p>
+                    <h3 className="text-sm sm:text-base font-bold text-[#f0f4ff] tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Upload Knowledge Base</h3>
+                    <p className="text-xs text-[#8899bb] mt-0.5">Supports PDF documents, audio recordings, and video files (Max {MAX_FILE_SIZE_MB}MB)</p>
                 </div>
-                <span className="hidden sm:inline-block px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[11px] font-bold uppercase tracking-wider border border-blue-100">
+                <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-blue-500/30 text-blue-400" style={{ background: 'rgba(37,99,235,0.1)' }}>
                     Whisper & LPU Powered
                 </span>
             </div>
 
             {/* Drop Zone */}
             <div
-                className={`relative group p-6 sm:p-8 rounded-2xl border-2 border-dashed transition-all duration-300 text-center ${
+                className={`relative group p-5 sm:p-7 rounded-2xl border-2 border-dashed transition-all duration-300 text-center ${
                     dragActive
-                        ? 'border-blue-500 bg-blue-50/70 scale-[1.005]'
-                        : 'border-slate-200 hover:border-blue-300 hover:bg-slate-50/50'
+                        ? 'border-blue-500 bg-blue-900/20 scale-[1.005] shadow-[0_0_25px_rgba(37,99,235,0.35)]'
+                        : 'border-blue-900/40 hover:border-blue-600/60 hover:bg-blue-900/10 hover:shadow-[0_0_20px_rgba(37,99,235,0.2)]'
                 }`}
+                style={dragActive ? {} : { background: 'rgba(8,12,20,0.6)' }}
                 onDragEnter={handleDrag}
                 onDragLeave={handleDrag}
                 onDragOver={handleDrag}
@@ -171,19 +172,19 @@ function FileUploader({ token, onUploadSuccess }) {
                     disabled={uploading}
                 />
 
-                <div className="flex flex-col items-center justify-center space-y-3">
-                    <div className={`p-4 rounded-2xl bg-blue-50 text-blue-600 transition-transform duration-300 group-hover:scale-110 shadow-sm ${dragActive ? 'bg-blue-600 text-white' : ''}`}>
-                        <UploadCloud size={28} />
+                <div className="flex flex-col items-center justify-center space-y-2.5">
+                    <div className={`p-3 rounded-2xl transition-transform duration-300 group-hover:scale-110 shadow-sm border border-blue-500/30 shadow-[0_0_12px_rgba(37,99,235,0.2)] ${dragActive ? 'bg-blue-600 text-white' : 'text-blue-400'}`} style={dragActive ? {} : { background: 'rgba(37,99,235,0.15)' }}>
+                        <UploadCloud size={24} />
                     </div>
 
-                    <div className="space-y-1">
-                        <p className="text-sm font-semibold text-slate-800">
+                    <div className="space-y-0.5">
+                        <p className="text-xs sm:text-sm font-semibold text-[#f0f4ff]">
                             Drag & drop files here, or{' '}
-                            <label htmlFor="file-upload" className="text-blue-600 hover:text-blue-700 underline cursor-pointer font-bold">
+                            <label htmlFor="file-upload" className="text-blue-400 hover:text-blue-300 underline cursor-pointer font-bold">
                                 browse computer
                             </label>
                         </p>
-                        <p className="text-[11px] text-slate-400">
+                        <p className="text-[11px] sm:text-xs text-[#8899bb]">
                             PDF, MP3, WAV, MP4, M4A up to {MAX_FILE_SIZE_MB}MB each
                         </p>
                     </div>
@@ -192,11 +193,11 @@ function FileUploader({ token, onUploadSuccess }) {
 
             {/* Staged Files Preview List */}
             {stagedFiles.length > 0 && (
-                <div className="mt-5 space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <div className="flex items-center justify-between text-xs font-bold text-slate-600 px-1">
+                <div className="mt-4 space-y-2.5 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="flex items-center justify-between text-xs font-bold text-[#8899bb] px-1">
                         <span>Selected Files ({stagedFiles.length})</span>
-                        <label htmlFor="file-upload" className="text-blue-600 hover:text-blue-700 cursor-pointer flex items-center gap-1 font-semibold">
-                            <Plus size={13} /> Add More
+                        <label htmlFor="file-upload" className="text-blue-400 hover:text-blue-300 cursor-pointer flex items-center gap-1 font-semibold text-xs">
+                            <Plus size={12} /> Add More
                         </label>
                     </div>
 
@@ -204,17 +205,18 @@ function FileUploader({ token, onUploadSuccess }) {
                         {stagedFiles.map((file, idx) => (
                             <div
                                 key={idx}
-                                className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-100 transition-colors"
+                                className="flex items-center justify-between p-2.5 rounded-2xl border border-blue-900/30 hover:border-blue-600/50 transition-colors"
+                                style={{ background: 'rgba(22,31,51,0.6)' }}
                             >
-                                <div className="flex items-center gap-3 min-w-0 pr-3">
-                                    <div className="p-2 rounded-xl bg-white border border-slate-100 shrink-0">
+                                <div className="flex items-center gap-2.5 min-w-0 pr-3">
+                                    <div className="p-1.5 rounded-xl border border-blue-900/40 shrink-0" style={{ background: 'rgba(8,12,20,0.8)' }}>
                                         {getFileIcon(file.name)}
                                     </div>
                                     <div className="min-w-0">
-                                        <p className="text-xs font-bold text-slate-800 truncate" title={file.name}>
+                                        <p className="text-xs sm:text-sm font-bold text-[#f0f4ff] truncate" title={file.name}>
                                             {file.name}
                                         </p>
-                                        <p className="text-[10px] text-slate-400 font-medium">
+                                        <p className="text-[11px] text-[#8899bb] font-medium">
                                             {formatFileSize(file.size)}
                                         </p>
                                     </div>
@@ -224,10 +226,10 @@ function FileUploader({ token, onUploadSuccess }) {
                                     <button
                                         type="button"
                                         onClick={() => removeStagedFile(idx)}
-                                        className="p-1.5 text-slate-400 hover:text-red-500 rounded-lg hover:bg-white transition-colors cursor-pointer"
+                                        className="p-1 text-[#8899bb] hover:text-red-400 rounded-lg hover:bg-white/10 transition-colors cursor-pointer"
                                         title="Remove file"
                                     >
-                                        <X size={14} />
+                                        <X size={13} />
                                     </button>
                                 )}
                             </div>
@@ -236,27 +238,23 @@ function FileUploader({ token, onUploadSuccess }) {
 
                     {/* Multi-Stage Upload Progress Bar */}
                     {uploading && (
-                        <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-100 space-y-2.5 animate-in fade-in duration-200">
+                        <div className="p-3.5 rounded-2xl border border-blue-500/30 space-y-2 animate-in fade-in duration-200" style={{ background: 'rgba(37,99,235,0.1)' }}>
                             <div className="flex items-center justify-between text-xs font-bold">
-                                <span className="flex items-center gap-2 text-blue-700">
-                                    <Loader2 size={14} className="animate-spin" />
+                                <span className="flex items-center gap-2 text-blue-300">
+                                    <Loader2 size={13} className="animate-spin" />
                                     {uploadStage === 'uploading' && `Uploading to server (${uploadProgress}%)...`}
-                                    {uploadStage === 'processing' && 'Whisper transcription & speech processing in progress...'}
-                                    {uploadStage === 'indexing' && 'Vector indexing & summary generation...'}
+                                    {uploadStage === 'processing' && 'Whisper transcription processing...'}
+                                    {uploadStage === 'indexing' && 'Vector indexing...'}
                                 </span>
-                                <span className="text-blue-600 font-mono">{uploadProgress}%</span>
+                                <span className="text-blue-400 font-mono text-xs">{uploadProgress}%</span>
                             </div>
 
-                            <div className="w-full h-2 rounded-full bg-blue-100 overflow-hidden">
+                            <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'rgba(8,12,20,0.8)' }}>
                                 <div
-                                    className="h-full bg-gradient-to-r from-blue-600 to-indigo-600 transition-all duration-300 rounded-full"
-                                    style={{ width: `${uploadProgress}%` }}
+                                    className="h-full bg-gradient-to-r from-blue-500 to-indigo-500 transition-all duration-300 rounded-full"
+                                    style={{ width: `${uploadProgress}%`, boxShadow: '0 0 10px rgba(59,130,246,0.5)' }}
                                 />
                             </div>
-
-                            <p className="text-[11px] text-slate-500">
-                                Large audio/video files are transcribed locally using Whisper STT. Please keep this tab open.
-                            </p>
                         </div>
                     )}
 
@@ -266,14 +264,15 @@ function FileUploader({ token, onUploadSuccess }) {
                             <button
                                 type="button"
                                 onClick={() => setStagedFiles([])}
-                                className="px-4 py-2 rounded-xl text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 transition-colors cursor-pointer"
+                                className="px-4 py-2 rounded-xl text-sm font-semibold text-[#8899bb] hover:text-[#f0f4ff] hover:bg-white/10 transition-colors cursor-pointer"
                             >
                                 Clear All
                             </button>
                             <button
                                 type="button"
                                 onClick={handleUpload}
-                                className="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md shadow-blue-600/20 active:scale-95 transition-all cursor-pointer flex items-center gap-2"
+                                className="px-5 py-2.5 rounded-xl text-sm font-bold text-white transition-all cursor-pointer flex items-center gap-2 border border-blue-500/50 active:scale-95 shadow-[0_0_15px_rgba(37,99,235,0.3)]"
+                                style={{ background: 'linear-gradient(135deg, #2563eb, #4f46e5)' }}
                             >
                                 <Sparkles size={14} className="text-blue-200" />
                                 <span>Upload & Process ({stagedFiles.length})</span>
@@ -287,4 +286,7 @@ function FileUploader({ token, onUploadSuccess }) {
 }
 
 export default FileUploader;
+
+
+
 

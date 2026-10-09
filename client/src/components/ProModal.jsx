@@ -35,64 +35,66 @@ function ProModal({ isOpen, onClose, totalFiles = 0 }) {
     ];
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#050810]/80 backdrop-blur-sm animate-in fade-in duration-200">
             <div 
-                className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-blue-100 overflow-hidden animate-in zoom-in-95 duration-200"
+                className="relative w-full max-w-2xl rounded-3xl shadow-2xl border-shining-dark-blue-strong overflow-hidden animate-in zoom-in-95 duration-200"
+                style={{ background: '#0f1624' }}
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header Banner */}
-                <div className="relative p-6 sm:p-8 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 text-white">
+                <div className="relative p-6 sm:p-8 text-white border-b border-blue-900/40" style={{ background: 'linear-gradient(135deg, rgba(37,99,235,0.8), rgba(79,70,229,0.8))' }}>
                     <button 
                         onClick={onClose}
-                        className="absolute top-6 right-6 p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
+                        className="absolute top-6 right-6 p-2 rounded-full hover:bg-white/10 text-white transition-colors cursor-pointer border border-white/20"
+                        style={{ background: 'rgba(22,31,51,0.4)' }}
                         title="Close"
                     >
                         <X size={18} />
                     </button>
 
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold uppercase tracking-wider mb-3">
-                        <Sparkles size={14} className="text-amber-300" />
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider mb-2.5 border border-white/30" style={{ background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)' }}>
+                        <Sparkles size={12} className="text-blue-300" />
                         Pro Workspace Active
                     </div>
 
-                    <h2 className="text-2xl sm:text-3xl font-black tracking-tight">
+                    <h2 className="text-xl sm:text-2xl font-black tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                         DocuMind Intelligence Suite
                     </h2>
-                    <p className="text-blue-100 text-sm mt-1 max-w-lg">
+                    <p className="text-blue-100 text-xs sm:text-sm mt-1 max-w-lg">
                         You are running on the Pro-tier workspace with unlimited local audio processing and accelerated cloud reasoning.
                     </p>
                 </div>
 
                 {/* Body Content */}
-                <div className="p-6 sm:p-8 space-y-6 max-h-[70vh] overflow-y-auto no-scrollbar">
+                <div className="p-5 sm:p-7 space-y-5 max-h-[70vh] overflow-y-auto no-scrollbar">
                     {/* Metrics Row */}
-                    <div className="grid grid-cols-3 gap-3 text-center">
-                        <div className="p-3.5 rounded-2xl bg-blue-50/70 border border-blue-100">
-                            <span className="text-2xl font-black text-blue-600">{totalFiles}</span>
-                            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mt-0.5">Files Indexed</p>
+                    <div className="grid grid-cols-3 gap-2.5 text-center">
+                        <div className="p-3 rounded-2xl border border-blue-500/30" style={{ background: 'rgba(37,99,235,0.1)' }}>
+                            <span className="text-xl font-black text-blue-400">{totalFiles}</span>
+                            <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8899bb] mt-0.5">Files Indexed</p>
                         </div>
-                        <div className="p-3.5 rounded-2xl bg-indigo-50/70 border border-indigo-100">
-                            <span className="text-2xl font-black text-indigo-600">Sub-1s</span>
-                            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mt-0.5">Inference Speed</p>
+                        <div className="p-3 rounded-2xl border border-indigo-500/30" style={{ background: 'rgba(99,102,241,0.1)' }}>
+                            <span className="text-xl font-black text-indigo-400">Sub-1s</span>
+                            <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8899bb] mt-0.5">Inference Speed</p>
                         </div>
-                        <div className="p-3.5 rounded-2xl bg-emerald-50/70 border border-emerald-100">
-                            <span className="text-2xl font-black text-emerald-600">100%</span>
-                            <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mt-0.5">System Health</p>
+                        <div className="p-3 rounded-2xl border border-emerald-500/30" style={{ background: 'rgba(16,185,129,0.1)' }}>
+                            <span className="text-xl font-black text-emerald-400">100%</span>
+                            <p className="text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#8899bb] mt-0.5">System Health</p>
                         </div>
                     </div>
 
                     {/* Features List */}
                     <div>
-                        <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Active Pro Capabilities</h4>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-[#8899bb] mb-2.5">Active Pro Capabilities</h4>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                             {features.map((feat, idx) => (
-                                <div key={idx} className="p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 transition-all flex items-start gap-3">
-                                    <div className="p-2 rounded-xl bg-white shadow-sm shrink-0">
-                                        {feat.icon}
+                                <div key={idx} className="p-3 rounded-2xl border-shining-dark-blue-subtle hover:border-blue-500/50 transition-all flex items-start gap-2.5" style={{ background: 'rgba(22,31,51,0.6)' }}>
+                                    <div className="p-1.5 rounded-xl shrink-0 border border-blue-900/40" style={{ background: 'rgba(8,12,20,0.8)' }}>
+                                        {React.cloneElement(feat.icon, { className: 'text-blue-400', size: 16 })}
                                     </div>
                                     <div>
-                                        <h5 className="text-sm font-bold text-slate-800">{feat.title}</h5>
-                                        <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{feat.desc}</p>
+                                        <h5 className="text-xs sm:text-sm font-bold text-[#f0f4ff]">{feat.title}</h5>
+                                        <p className="text-xs text-[#8899bb] mt-0.5 leading-relaxed">{feat.desc}</p>
                                     </div>
                                 </div>
                             ))}
@@ -101,13 +103,13 @@ function ProModal({ isOpen, onClose, totalFiles = 0 }) {
 
                     {/* System Status Table */}
                     <div>
-                        <h4 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">Live Service Status</h4>
-                        <div className="space-y-2 rounded-2xl bg-slate-50 p-4 border border-slate-100">
+                        <h4 className="text-xs font-bold uppercase tracking-widest text-[#8899bb] mb-2.5">Live Service Status</h4>
+                        <div className="space-y-1.5 rounded-2xl p-3.5 border border-blue-900/40" style={{ background: 'rgba(22,31,51,0.6)' }}>
                             {systemStatus.map((item, idx) => (
-                                <div key={idx} className="flex items-center justify-between text-xs py-1">
-                                    <span className="font-semibold text-slate-700">{item.name}</span>
-                                    <span className="inline-flex items-center gap-1.5 font-bold text-emerald-600">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                <div key={idx} className="flex items-center justify-between text-xs py-0.5">
+                                    <span className="font-semibold text-[#c8d8f0]">{item.name}</span>
+                                    <span className="inline-flex items-center gap-1.5 font-bold text-emerald-400">
+                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.5)]" />
                                         {item.status}
                                     </span>
                                 </div>
@@ -117,13 +119,14 @@ function ProModal({ isOpen, onClose, totalFiles = 0 }) {
                 </div>
 
                 {/* Footer */}
-                <div className="p-4 sm:p-6 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-xs font-medium text-slate-500">Tier: <strong className="text-slate-800">DocuMind Pro (Enterprise Demo)</strong></span>
+                <div className="p-4 sm:p-5 border-t border-blue-900/40 flex items-center justify-between" style={{ background: 'rgba(8,12,20,0.8)' }}>
+                    <span className="text-xs font-medium text-[#8899bb]">Tier: <strong className="text-[#f0f4ff]">DocuMind Pro (Enterprise Demo)</strong></span>
                     <button 
                         onClick={onClose}
-                        className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs tracking-wider transition-colors cursor-pointer shadow-md shadow-blue-600/20"
+                        className="px-4 py-2 rounded-xl text-xs font-bold text-white border border-blue-500/50 cursor-pointer transition-all hover:scale-[1.02] active:scale-95"
+                        style={{ background: 'linear-gradient(135deg, #2563eb, #4f46e5)', boxShadow: '0 0 15px rgba(37,99,235,0.3)' }}
                     >
-                        Dismiss
+                        Close
                     </button>
                 </div>
             </div>
@@ -132,3 +135,5 @@ function ProModal({ isOpen, onClose, totalFiles = 0 }) {
 }
 
 export default ProModal;
+
+

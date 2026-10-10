@@ -137,24 +137,24 @@ function FileUploader({ token, onUploadSuccess }) {
     };
 
     return (
-        <div className="p-5 sm:p-6 rounded-3xl border-shining-dark-blue relative overflow-hidden" style={{ background: '#0f1624' }}>
+        <div className="p-3.5 sm:p-4 rounded-2xl border-shining-dark-blue relative overflow-hidden" style={{ background: '#0f1624' }}>
             {/* Header info */}
-            <div className="flex items-center justify-between mb-3.5">
-                <div>
-                    <h3 className="text-sm sm:text-base font-bold text-[#f0f4ff] tracking-tight" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>Upload Knowledge Base</h3>
-                    <p className="text-xs text-[#8899bb] mt-0.5">Supports PDF documents, audio recordings, and video files (Max {MAX_FILE_SIZE_MB}MB)</p>
+            <div className="flex items-center justify-between mb-2.5">
+                <div className="flex items-center gap-1.5">
+                    <UploadCloud size={15} className="text-blue-400" />
+                    <span className="text-xs font-bold text-[#f0f4ff] tracking-tight">Add Knowledge</span>
                 </div>
-                <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border border-blue-500/30 text-blue-400" style={{ background: 'rgba(37,99,235,0.1)' }}>
-                    Whisper & LPU Powered
+                <span className="text-[10px] font-bold text-blue-300 px-2 py-0.5 rounded-full border border-blue-500/25" style={{ background: 'rgba(37,99,235,0.1)' }}>
+                    Max {MAX_FILE_SIZE_MB}MB
                 </span>
             </div>
 
             {/* Drop Zone */}
             <div
-                className={`relative group p-5 sm:p-7 rounded-2xl border-2 border-dashed transition-all duration-300 text-center ${
+                className={`relative group p-3.5 sm:p-4 rounded-xl border-2 border-dashed transition-all duration-300 text-center ${
                     dragActive
-                        ? 'border-blue-500 bg-blue-900/20 scale-[1.005] shadow-[0_0_25px_rgba(37,99,235,0.35)]'
-                        : 'border-blue-900/40 hover:border-blue-600/60 hover:bg-blue-900/10 hover:shadow-[0_0_20px_rgba(37,99,235,0.2)]'
+                        ? 'border-blue-500 bg-blue-900/25 scale-[1.01] shadow-[0_0_20px_rgba(37,99,235,0.35)]'
+                        : 'border-blue-900/40 hover:border-blue-500/60 hover:bg-blue-900/10 hover:shadow-[0_0_15px_rgba(37,99,235,0.2)]'
                 }`}
                 style={dragActive ? {} : { background: 'rgba(8,12,20,0.6)' }}
                 onDragEnter={handleDrag}
@@ -172,20 +172,20 @@ function FileUploader({ token, onUploadSuccess }) {
                     disabled={uploading}
                 />
 
-                <div className="flex flex-col items-center justify-center space-y-2.5">
-                    <div className={`p-3 rounded-2xl transition-transform duration-300 group-hover:scale-110 shadow-sm border border-blue-500/30 shadow-[0_0_12px_rgba(37,99,235,0.2)] ${dragActive ? 'bg-blue-600 text-white' : 'text-blue-400'}`} style={dragActive ? {} : { background: 'rgba(37,99,235,0.15)' }}>
-                        <UploadCloud size={24} />
+                <div className="flex flex-col items-center justify-center space-y-1.5">
+                    <div className={`p-2 rounded-xl transition-transform duration-300 group-hover:scale-110 border border-blue-500/30 ${dragActive ? 'bg-blue-600 text-white' : 'text-blue-400'}`} style={dragActive ? {} : { background: 'rgba(37,99,235,0.15)' }}>
+                        <UploadCloud size={18} />
                     </div>
 
                     <div className="space-y-0.5">
-                        <p className="text-xs sm:text-sm font-semibold text-[#f0f4ff]">
-                            Drag & drop files here, or{' '}
+                        <p className="text-xs font-semibold text-[#f0f4ff]">
+                            Drag & drop, or{' '}
                             <label htmlFor="file-upload" className="text-blue-400 hover:text-blue-300 underline cursor-pointer font-bold">
-                                browse computer
+                                browse files
                             </label>
                         </p>
-                        <p className="text-[11px] sm:text-xs text-[#8899bb]">
-                            PDF, MP3, WAV, MP4, M4A up to {MAX_FILE_SIZE_MB}MB each
+                        <p className="text-[10px] text-[#8899bb]">
+                            PDF, MP3, WAV, MP4, M4A
                         </p>
                     </div>
                 </div>

@@ -5,7 +5,7 @@ test_file_*.txt
 **/.env
 .env.*
 !.env.example
-
+*.md
 # Node
 **/node_modules/
 **/dist/

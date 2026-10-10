@@ -273,10 +273,8 @@ function App() {
                 </div>
 
                 {/* Sidebar Scrollable Body */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 no-scrollbar">
-                  <section className="rounded-2xl border-shining-dark-blue overflow-hidden" style={{ background: '#0f1624' }}>
-                    <FileUploader token={token} onUploadSuccess={handleUploadSuccess} />
-                  </section>
+                <div className="flex-1 overflow-y-auto p-3.5 space-y-3.5 no-scrollbar">
+                  <FileUploader token={token} onUploadSuccess={handleUploadSuccess} />
 
                   {activeMedia && (
                     <section id="media-player-section" className="rounded-2xl p-3.5 border-shining-dark-blue overflow-hidden animate-in fade-in duration-300" style={{ background: '#0f1624' }}>

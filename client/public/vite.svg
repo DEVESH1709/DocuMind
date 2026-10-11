@@ -1,1 +1,73 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17.501a3.268 3.268 0 0 0-2.634 3.014l-5.474 92.456a3.268 3.268 0 0 0 3.997 3.378l24.777-5.718c2.318-.535 4.413 1.507 3.936 3.838l-7.361 36.047c-.495 2.426 1.782 4.5 4.151 3.78l15.304-4.649c2.372-.72 4.652 1.36 4.15 3.788l-11.698 56.621c-.732 3.542 3.979 5.473 5.943 2.437l1.313-2.028l72.516-144.72c1.215-2.423-.88-5.186-3.54-4.672l-25.505 4.922c-2.396.462-4.435-1.77-3.759-4.114l16.646-57.705c.677-2.35-1.37-4.583-3.769-4.113Z"></path></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080d1a"/>
+      <stop offset="50%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#111c38"/>
+    </linearGradient>
+
+    <!-- Glowing Border Gradient -->
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+
+    <!-- Document Fill Gradient -->
+    <linearGradient id="docGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+
+    <!-- AI Sparkle Core Gradient -->
+    <linearGradient id="sparkleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#67e8f9"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+
+    <!-- Accent Neural Gradient -->
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#a855f7"/>
+    </linearGradient>
+
+    <!-- Glow Filter -->
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Modern Rounded Squircle Container -->
+  <rect x="4" y="4" width="120" height="120" rx="32" fill="url(#bgGrad)" stroke="url(#borderGrad)" stroke-width="4"/>
+
+  <!-- Subtle Inner Backdrop Glow -->
+  <circle cx="64" cy="64" r="38" fill="#3b82f6" fill-opacity="0.12" filter="url(#glow)"/>
+
+  <!-- Document Silhouette -->
+  <path d="M36 28 C36 23.58 39.58 20 44 20 H74 L92 38 V98 C92 102.42 88.42 106 84 106 H44 C39.58 106 36 102.42 36 98 Z" 
+        fill="url(#docGrad)" stroke="url(#borderGrad)" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- Folded Corner -->
+  <path d="M74 20 V36 C74 37.1 74.9 38 76 38 H92" 
+        stroke="url(#borderGrad)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="#1e293b"/>
+
+  <!-- Abstract Document Text / Media Lines -->
+  <rect x="46" y="44" width="22" height="4" rx="2" fill="#60a5fa" fill-opacity="0.9"/>
+  <rect x="46" y="54" width="34" height="4" rx="2" fill="#94a3b8" fill-opacity="0.7"/>
+  <rect x="46" y="64" width="18" height="4" rx="2" fill="#94a3b8" fill-opacity="0.5"/>
+
+  <!-- Central AI Neural Sparkle (High Contrast, Bold, Glowing) -->
+  <path d="M74 62 Q74 76 60 76 Q74 76 74 90 Q74 76 88 76 Q74 76 74 62 Z" 
+        fill="url(#sparkleGrad)" filter="url(#glow)"/>
+
+  <!-- Mini Accent Sparkle -->
+  <path d="M50 82 Q50 87 45 87 Q50 87 50 92 Q50 87 55 87 Q50 87 50 82 Z" 
+        fill="#38bdf8"/>
+
+  <!-- Satellite Neural Nodes -->
+  <circle cx="88" cy="62" r="3" fill="#67e8f9"/>
+  <circle cx="62" cy="94" r="2.5" fill="#a855f7"/>
+</svg>
